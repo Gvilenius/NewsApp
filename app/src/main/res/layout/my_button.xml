@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/news_back"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/button_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/news_info"
+        android:textSize="20dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="20dp"
+        android:gravity="left"
+        android:text="Item1" />
+
+    <TextView
+        android:id="@+id/button_textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/news_info"
+        android:textSize="15dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="5dp"
+        android:gravity="left"
+        android:text="Item2Item2" />
+</LinearLayout>
