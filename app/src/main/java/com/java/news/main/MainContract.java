@@ -13,6 +13,6 @@ public interface MainContract {
     }
 
     interface Presenter extends BasePresenter{
-        void switchNavigation();
+        void switchNavigation(int id);
     }
 }

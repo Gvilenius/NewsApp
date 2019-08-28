@@ -12,8 +12,10 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public void switchNavigation() {
-
+    public void switchNavigation(int id) {
+//        switch (id){
+//
+//        }
     }
 
     @Override
