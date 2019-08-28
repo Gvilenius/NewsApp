@@ -16,6 +16,9 @@ public class MainActivity extends AppCompatActivity implements  MainContract.Vie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
         MyButton button1 = (MyButton) findViewById(R.id.bt1);
         button1.textView1.setText("点击进入下拉刷新测试");
     }
