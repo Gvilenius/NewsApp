@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.java.news.R;
 
 public class MyButton extends LinearLayout {
-    TextView textView1,textView2;
+    public TextView textView1,textView2;
 
     public MyButton(Context context)
     {

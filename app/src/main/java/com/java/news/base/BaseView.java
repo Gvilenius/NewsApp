@@ -5,5 +5,5 @@ package com.java.news.base;
  */
 
 public interface BaseView <T extends BasePresenter>{
-
+    void setPresenter(T presenter);
 }

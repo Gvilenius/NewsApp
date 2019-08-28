@@ -7,10 +7,12 @@ import com.java.news.base.*;
 
 public interface MainContract {
     interface View extends BaseView <MainContract.Presenter>{
-
+        void switch2News();
+        void switch2Favorites();
+        void switch2Settings();
     }
 
     interface Presenter extends BasePresenter{
-
+        void switchNavigation();
     }
 }
