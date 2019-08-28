@@ -3,4 +3,7 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="news_back">#A1D3F8</color>
+    <color name="news_info">#C77404</color>
+    <color name="boarder">#000000</color>
 </resources>
