@@ -5,6 +5,12 @@ package com.java.news.main;
 
 public class MainPresenter implements MainContract.Presenter {
 
+    private MainContract.View mMainVeiw;
+
+    public MainPresenter(MainContract.View mainview){
+        mMainVeiw = mainview;
+    }
+
     @Override
     public void switchNavigation() {
 
