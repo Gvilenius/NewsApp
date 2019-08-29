@@ -9,8 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".main.NewsDetailActivity"></activity>
-        <activity android:name=".main.NewsActivity" />
+        <activity android:name=".main.FavoriteActivity"></activity>
+        <activity android:name=".main.NewsDetailActivity" />
+        <activity android:name=".main.NewsActivity"
+            android:windowSoftInputMode="adjustPan"> <!-- 使得打字时窗口大小不变 -->
+        </activity>
 
         <meta-data
             android:name="com.google.android.actions"

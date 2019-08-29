@@ -89,30 +89,35 @@
             </LinearLayout>
         </ScrollView>
 
-        <LinearLayout
-            android:id="@+id/linearLayout2"
+        <RadioGroup
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@android:color/white"
+            android:checkedButton="@+id/v_homePage"
+            android:gravity="center_vertical">
+            <RadioButton
+                android:id="@+id/v_homePage"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:button="@null"
+                android:text="首页"
+                >
+            </RadioButton>
+            <RadioButton
+                android:id="@+id/v_manager"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:button="@null"
+                android:text="工作管理"
+                >
 
-            <com.java.news.mybutton.MyButton
-                android:id="@+id/button4"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-
-            <com.java.news.mybutton.MyButton
-                android:id="@+id/button3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-
-            <com.java.news.mybutton.MyButton
-                android:id="@+id/button2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-        </LinearLayout>
+            </RadioButton>
+        </RadioGroup>
 
     </LinearLayout>
 
