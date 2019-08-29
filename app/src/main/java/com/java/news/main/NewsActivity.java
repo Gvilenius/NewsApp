@@ -2,10 +2,12 @@ package com.java.news.main;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -18,6 +20,8 @@ import com.java.news.mybutton.RefreshableView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 public class NewsActivity extends AppCompatActivity {
 
@@ -54,9 +58,15 @@ public class NewsActivity extends AppCompatActivity {
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        char outChar=(char)(position+'0');
-                        String outStr="click on "+outChar;
-                        Toast.makeText(NewsActivity.this, outStr,Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(NewsActivity.this, NewsDetailActivity.class);
+                        String newsTitle = "News "+(char)(position+'0');
+                        String newsInfo = "This is the information in the news "+(char)(position+'0')+".\nI use it for test.\nTo see what will happen...";
+                        intent.putExtra("news_detail_title", newsTitle);
+                        intent.putExtra("news_detail_info", newsInfo);
+                        startActivity(intent);
+//                        char outChar=(char)(position+'0');
+//                        String outStr="click on "+outChar;
+//                        Toast.makeText(NewsActivity.this, outStr,Toast.LENGTH_SHORT).show();
                     }
                 }
                 );
