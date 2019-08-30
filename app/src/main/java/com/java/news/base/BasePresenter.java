@@ -5,5 +5,4 @@ package com.java.news.base;
  */
 
 public interface BasePresenter {
-    void start();
 }

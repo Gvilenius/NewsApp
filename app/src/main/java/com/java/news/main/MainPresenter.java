@@ -3,23 +3,15 @@ package com.java.news.main;
  * Created by ljf on 2019-8-28.
  */
 
+import com.java.news.base.BaseView;
+
 public class MainPresenter implements MainContract.Presenter {
 
-    private MainContract.View mMainVeiw;
 
-    public MainPresenter(MainContract.View mainview){
-        mMainVeiw = mainview;
+    public MainPresenter(){
+
     }
 
     @Override
-    public void switchNavigation(int id) {
-//        switch (id){
-//
-//        }
-    }
-
-    @Override
-    public void start() {
-
-    }
+    public void switchNavigation(int id) {}
 }

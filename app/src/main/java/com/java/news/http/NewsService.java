@@ -6,6 +6,7 @@ package com.java.news.http;
 import com.java.news.data.NewsDetail;
 import com.java.news.data.NewsSummary;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -13,11 +14,11 @@ import retrofit2.http.Query;
 public interface NewsService {
 
     @GET("svc/news/queryNewsList")
-    Call<Model> getNewsList (@Query("size") String size,
-                                      @Query("startDate") String startDate,
-                                      @Query("endDate") String endDate,
-                                      @Query("words") String words,
-                                      @Query("categories") String categories);
+    Observable<NewsResponse> getNewsList (@Query("size") String size,
+                                          @Query("startDate") String startDate,
+                                          @Query("endDate") String endDate,
+                                          @Query("words") String words,
+                                          @Query("categories") String categories);
 
     @GET("svc/news/queryNewsList")
     Call<NewsSummary> getNewsSummary (@Query("size") String size,

@@ -7,7 +7,6 @@ import java.util.List;
 
 public class NewsDetail extends NewsSummary{
     private String content;
-
     private List<keyword> keywords;
     private List<keyword> when;
     private List<person> persons;
