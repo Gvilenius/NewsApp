@@ -5,8 +5,7 @@ package com.java.news.news.newsList;
 
 import com.java.news.base.BasePresenter;
 import com.java.news.base.BaseView;
-import com.java.news.data.NewsDetail;
-import com.java.news.data.NewsSummary;
+import com.java.news.data.NewsEntity;
 
 
 import java.util.List;
@@ -14,9 +13,9 @@ import java.util.List;
 public interface NewsListContract {
     interface View extends BaseView{
         //显示新闻列表
-        void setNewsList(List<NewsDetail> newsList);
+        void setNewsList(List<NewsEntity> newsList);
         //上拉追加列表
-        void appendNewsList(List<NewsDetail> newsList);
+        void appendNewsList(List<NewsEntity> newsList);
         void onError();
     }
 
@@ -28,6 +27,6 @@ public interface NewsListContract {
         //设置关键字
         void keyword(String keyword);
 
-        void switch2NewsDetail(NewsDetail news);
+        void switch2NewsDetail(NewsEntity news);
     }
 }

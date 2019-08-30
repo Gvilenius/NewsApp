@@ -4,12 +4,10 @@ package com.java.news.news.newsList;
  */
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 
-import com.java.news.data.NewsDetail;
+import com.java.news.data.NewsEntity;
 import com.java.news.http.NewsResponse;
 import com.java.news.http.RetrofitManager;
-import com.java.news.main.NewsDetailActivity;
 
 import java.util.List;
 
@@ -26,7 +24,6 @@ public class NewsListPresenter implements NewsListContract.Presenter {
         mNewsListView = newsListView;
         mCatogory = category;
         mKeyword = keyword;
-        mNewsListView.setPresenter(this);
     }
 
     @SuppressLint("CheckResult")
@@ -36,7 +33,7 @@ public class NewsListPresenter implements NewsListContract.Presenter {
         o.subscribe(new Consumer<NewsResponse>(){
             @Override
             public void accept(NewsResponse value) throws Exception{
-                List<NewsDetail> newsList = value.getNewsList();
+                List<NewsEntity> newsList = value.getNewsList();
 
                 //To handle the data here, for exmple
                 mNewsListView.appendNewsList(newsList);
@@ -51,7 +48,7 @@ public class NewsListPresenter implements NewsListContract.Presenter {
         o.subscribe(new Consumer<NewsResponse>(){
             @Override
             public void accept(NewsResponse value) throws Exception{
-                List<NewsDetail> newsList = value.getNewsList();
+                List<NewsEntity> newsList = value.getNewsList();
 
                 //To handle the data here, for exmple
                 mNewsListView.setNewsList(newsList);
@@ -65,7 +62,7 @@ public class NewsListPresenter implements NewsListContract.Presenter {
     }
 
     @Override
-    public void switch2NewsDetail(NewsDetail news) {
+    public void switch2NewsDetail(NewsEntity news) {
 //        Intent intent = new Intent(mNewsListView, NewsDetailActivity.class);
     }
 
