@@ -3,12 +3,14 @@ package com.java.news.data;
  * Created by ljf on 2019-8-29.
  */
 
+import android.graphics.Bitmap;
+
 import java.util.List;
 
 public class NewsSummary
 {
 
-
+    private Bitmap img;
     private String newsID;
     private String publishTime;
     private String language;

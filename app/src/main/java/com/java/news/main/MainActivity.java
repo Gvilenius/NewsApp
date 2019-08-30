@@ -22,6 +22,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity implements  MainContract.View{
 
+
     protected MainContract.Presenter mPresent;
     private RetrofitManager mManager;
     @Override
@@ -38,37 +39,7 @@ public class MainActivity extends AppCompatActivity implements  MainContract.Vie
 //        EditText editText = (EditText) findViewById(R.id.editText);
 //        String message = editText.getText().toString();
 //        intent.putExtra(EXTRA_MESSAGE, message);
-//        startActivity(intent);
-
-
-        RetrofitManager.getInstance().fetchNewsList("15", "特朗普", "科技")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<NewsResponse>(){
-                    @Override
-                    public void accept(NewsResponse value) {
-                        List<NewsDetail> newsList = value.getNewsList();
-
-                        //To handle the data here, for exmple
-//                        MyButton button1 = (MyButton) findViewById(R.id.bt1);
-//                        button1.textView1.setText(value.getNewsId());
-                    }
-
-                });
-
-    }
-
-
-
-
-
-
-
-
-
-    @Override
-    public void setPresenter(MainContract.Presenter presenter){
-        mPresent = presenter;
+        startActivity(intent);
     }
 
     @Override

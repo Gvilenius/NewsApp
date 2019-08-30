@@ -6,7 +6,7 @@ import com.java.news.base.*;
  */
 
 public interface MainContract {
-    interface View extends BaseView <Presenter>{
+    interface View extends BaseView{
         void switch2News();
         void switch2Favorites();
         void switch2Settings();

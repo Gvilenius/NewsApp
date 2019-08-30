@@ -4,4 +4,5 @@ package com.java.news.news.newsDetail;
  */
 
 public interface NewsDetailContract {
+
 }
