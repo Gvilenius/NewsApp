@@ -7,6 +7,8 @@ import java.util.List;
 
 public class NewsSummary
 {
+
+
     private String newsID;
     private String publishTime;
     private String language;
@@ -14,6 +16,31 @@ public class NewsSummary
     private String crawlTime;
     private String publisher;
     private String catagory;
+
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public String getTitile() {
+        return titile;
+    }
+
+    public String getCrawlTime() {
+        return crawlTime;
+    }
+
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public String getCatagory() {
+        return catagory;
+    }
+
+    public String getPublishTime() {
+        return publishTime;
+    }
 
     public String getNewsID(){
         return newsID;
