@@ -7,9 +7,10 @@ import com.java.news.base.BaseView;
 
 public class MainPresenter implements MainContract.Presenter {
 
-
-    public MainPresenter(){
-
+    private MainContract.View mMainView;
+    public MainPresenter(MainContract.View mainView){
+        mMainView = mainView;
+        mainView.setPresenter(this);
     }
 
     @Override

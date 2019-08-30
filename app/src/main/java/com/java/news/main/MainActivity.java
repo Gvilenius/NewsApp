@@ -17,6 +17,7 @@ import java.util.List;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity implements  MainContract.View{
@@ -29,7 +30,6 @@ public class MainActivity extends AppCompatActivity implements  MainContract.Vie
         setContentView(R.layout.activity_main);
         MyButton button1 = (MyButton) findViewById(R.id.bt1);
         button1.textView1.setText("点击进入下拉刷新测试");
-        mManager = RetrofitManager.getInstance();
     }
 
 
@@ -38,36 +38,23 @@ public class MainActivity extends AppCompatActivity implements  MainContract.Vie
 //        EditText editText = (EditText) findViewById(R.id.editText);
 //        String message = editText.getText().toString();
 //        intent.putExtra(EXTRA_MESSAGE, message);
-        startActivity(intent);
+//        startActivity(intent);
 
 
-//        mManager.fetchNewsList("15", "特朗普", "科技")
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Observer<NewsResponse>(){
-//                    private Disposable mDisposable;
-//                    @Override
-//                    public void onSubscribe(Disposable d) {
-//                        mDisposable = d;
-//                    }
-//
-//                    @Override
-//                    public void onNext(NewsResponse value) {
+        RetrofitManager.getInstance().fetchNewsList("15", "特朗普", "科技")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<NewsResponse>(){
+                    @Override
+                    public void accept(NewsResponse value) {
+                        List<NewsDetail> newsList = value.getNewsList();
+
+                        //To handle the data here, for exmple
 //                        MyButton button1 = (MyButton) findViewById(R.id.bt1);
-//                        List<NewsDetail> newsList = value.getNewsList();
-//
-//                        //To handle the data here
-//                        mDisposable.dispose();//注销
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        mDisposable.dispose();//注销
-//                    }
-//
-//                    @Override
-//                    public void onComplete() {}
-//                });
+//                        button1.textView1.setText(value.getNewsId());
+                    }
+
+                });
 
     }
 
