@@ -64,6 +64,7 @@ public class NewsEntity extends RealmObject{
     public String getNewsID(){
         return newsID;
     }
+
     public String getContent() {
         return content;
     }

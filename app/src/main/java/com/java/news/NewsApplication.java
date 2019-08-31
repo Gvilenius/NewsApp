@@ -4,6 +4,7 @@ package com.java.news;
  */
 
 import android.app.Application;
+import android.content.Context;
 
 import com.facebook.stetho.Stetho;
 import com.facebook.stetho.inspector.protocol.module.HeapProfiler;
@@ -15,9 +16,11 @@ import io.realm.RealmConfiguration;
 import okhttp3.OkHttpClient;
 
 public class NewsApplication extends Application {
+    public static Context appContext;
     @Override
     public void onCreate(){
         super.onCreate();
+        appContext = this;
         Realm.init(this);
         RealmConfiguration config = new  RealmConfiguration.Builder()
                 .name("myRealm.realm")

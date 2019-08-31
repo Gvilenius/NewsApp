@@ -4,15 +4,26 @@ package com.java.news.http;
  */
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 
+import com.java.news.NewsApplication;
 import com.java.news.data.NewsEntity;
+import com.java.news.main.MainActivity;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.Cache;
+import okhttp3.CacheControl;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -22,7 +33,16 @@ public class RetrofitManager {
     private NewsService mNewsService;
     private static RetrofitManager mInstance;
     private RetrofitManager() {
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        File cacheDir = new File(NewsApplication.appContext.getCacheDir(), "response");
+        //缓存的最大尺寸10m
+        Cache cache = new Cache(cacheDir, 1024 * 1024 * 10);
+        builder.cache(cache);
+        builder.addInterceptor(new CacheInterceptor());
+        OkHttpClient client = builder.build();
+
         mNewsService = new Retrofit.Builder()
+                .client(client)
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -44,17 +64,9 @@ public class RetrofitManager {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
     @SuppressLint("CheckResult")
     public static void main(String[] args){
-        RetrofitManager.getInstance().fetchNewsList("10", "特朗普", "科技").subscribe(new Consumer<NewsResponse>(){
-            @Override
-            public void accept(NewsResponse value) {
-                List<NewsEntity> newsList = value.getNewsList();
-                for (NewsEntity news: newsList){
-                    System.out.println(news.getNewsID());
-                }
-//                To handle the data here, for exmple
-            }
-        });
+
     }
 }
