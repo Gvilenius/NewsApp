@@ -4,17 +4,17 @@
     android:layout_height="wrap_content"
     android:id="@+id/news_item">
 
-    <ImageView
-        android:id="@+id/news_image"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        android:layout_margin="5dp"/>
-
     <TextView
         android:id="@+id/news_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="10dp"
+        android:layout_weight="1"
         android:textSize="24sp" />
+    <ImageView
+        android:id="@+id/news_image"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_margin="5dp" />
 </LinearLayout>

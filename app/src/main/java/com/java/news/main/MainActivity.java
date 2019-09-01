@@ -7,25 +7,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.facebook.stetho.Stetho;
-import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.java.news.R;
-import com.java.news.data.NewsEntity;
-import com.java.news.http.NewsResponse;
 import com.java.news.http.RetrofitManager;
-import com.java.news.mybutton.MyButton;
-
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
-import io.realm.RealmResults;
-import io.realm.exceptions.RealmMigrationNeededException;
-import okhttp3.OkHttpClient;
+import com.java.news.myitems.MyButton;
+import com.java.news.news.newsList.NewsActivity;
 
 public class MainActivity extends AppCompatActivity implements  MainContract.View{
 
@@ -49,50 +34,50 @@ public class MainActivity extends AppCompatActivity implements  MainContract.Vie
 //        EditText editText = (EditText) findViewById(R.id.editText);
 //        String message = editText.getText().toString();
 //        intent.putExtra(EXTRA_MESSAGE, message);
-//        startActivity(intent);
+        startActivity(intent);
 
-        RetrofitManager.getInstance().fetchNewsList("300", "", "")
-                .subscribe(new Observer<NewsResponse>(){
-                    private Disposable disposable;
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        disposable = d;
-                    }
-
-                    @Override
-                    public void onNext(NewsResponse value){
-                        Realm realm=null;
-                        realm = Realm.getDefaultInstance();
-                        realm.beginTransaction();
-                        List<NewsEntity> newsList = value.getNewsList();
-                        for (NewsEntity news: newsList){
-                            realm.copyToRealmOrUpdate(news);
-                            System.out.println(news.getNewsID());
-                            break;
-                        }
-        //                To handle the data here, for exmple
-                        realm.commitTransaction();
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        System.out.println("Error");
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
-
-        Realm realm=Realm.getDefaultInstance();
-        RealmResults<NewsEntity> result2 = realm.where(NewsEntity.class)
-                .equalTo("newsID", "201908300059ff4a44f1896d4c5ca6cb2f11940c402f")
-                .findAll();
-        for (NewsEntity news: result2){
-            System.out.println(news.getContent());
-        }
+//        RetrofitManager.getInstance().fetchNewsList("300", "", "")
+//                .subscribe(new Observer<NewsResponse>(){
+//                    private Disposable disposable;
+//                    @Override
+//                    public void onSubscribe(Disposable d) {
+//                        disposable = d;
+//                    }
+//
+//                    @Override
+//                    public void onNext(NewsResponse value){
+//                        Realm realm=null;
+//                        realm = Realm.getDefaultInstance();
+//                        realm.beginTransaction();
+//                        List<NewsEntity> newsList = value.getNewsList();
+//                        for (NewsEntity news: newsList){
+//                            realm.copyToRealmOrUpdate(news);
+//                            System.out.println(news.getNewsID());
+//                            break;
+//                        }
+//        //                To handle the data here, for exmple
+//                        realm.commitTransaction();
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        System.out.println("Error");
+//                    }
+//
+//                    @Override
+//                    public void onComplete() {
+//
+//                    }
+//                });
+//
+//        Realm realm=Realm.getDefaultInstance();
+//        RealmResults<NewsEntity> result2 = realm.where(NewsEntity.class)
+//                .equalTo("newsID", "201908300059ff4a44f1896d4c5ca6cb2f11940c402f")
+//                .findAll();
+//        for (NewsEntity news: result2){
+//            System.out.println(news.getContent());
+//        }
     }
 
 

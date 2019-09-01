@@ -1,4 +1,4 @@
-package com.java.news.mybutton;
+package com.java.news.myitems;
 
 import android.content.Context;
 import android.util.AttributeSet;

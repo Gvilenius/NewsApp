@@ -1,4 +1,4 @@
-package com.java.news.main;
+package com.java.news.news.newsDetail;
 
 import androidx.appcompat.app.AppCompatActivity;
 

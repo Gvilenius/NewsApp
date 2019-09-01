@@ -1,4 +1,4 @@
-package com.java.news.main;
+package com.java.news.news.newsList;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,8 +9,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.java.news.R;
-import com.java.news.mybutton.NewsAdaptor;
-import com.java.news.mybutton.NewsItem;
+import com.java.news.myitems.NewsAdaptor;
+import com.java.news.myitems.NewsItem;
+import com.java.news.news.newsDetail.NewsDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;

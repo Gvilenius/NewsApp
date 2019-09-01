@@ -1,4 +1,4 @@
-package com.java.news.main;
+package com.java.news.news.newsList;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -16,18 +14,16 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.java.news.R;
-import com.java.news.mybutton.MyButton;
-import com.java.news.mybutton.NewsAdaptor;
-import com.java.news.mybutton.NewsItem;
-import com.java.news.mybutton.RefreshableView;
+import com.java.news.myitems.NewsAdaptor;
+import com.java.news.myitems.NewsItem;
+import com.java.news.myitems.RefreshableView;
+import com.java.news.news.newsDetail.NewsDetailActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
-import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 public class NewsActivity extends AppCompatActivity {
     // 刷新栏信息

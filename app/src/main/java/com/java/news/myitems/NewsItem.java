@@ -1,4 +1,4 @@
-package com.java.news.mybutton;
+package com.java.news.myitems;
 
 public class NewsItem {
     private String name;
