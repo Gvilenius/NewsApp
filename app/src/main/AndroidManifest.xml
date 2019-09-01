@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.java.news">
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:name=".NewsApplication"
         android:allowBackup="true"
@@ -13,15 +15,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".news.newsList.FavoriteActivity"></activity>
+        <activity android:name=".main.SettingActivity"></activity>
+        <activity android:name=".news.newsList.FavoriteActivity" />
         <activity android:name=".news.newsDetail.NewsDetailActivity" />
-        <activity android:name=".news.newsList.NewsActivity"
+        <activity
+            android:name=".news.newsList.NewsActivity"
             android:windowSoftInputMode="adjustPan"> <!-- 使得打字时窗口大小不变 -->
         </activity>
-
-        <meta-data
-            android:name="com.google.android.actions"
-            android:resource="@xml/aaa" />
 
         <activity
             android:name=".main.MainActivity"

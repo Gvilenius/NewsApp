@@ -5,15 +5,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.java.news.R;
+import com.java.news.main.SettingActivity;
 import com.java.news.myitems.NewsAdaptor;
 import com.java.news.myitems.NewsItem;
 import com.java.news.myitems.RefreshableView;
@@ -38,6 +43,9 @@ public class NewsActivity extends AppCompatActivity {
     SimpleAdapter classAdapter;
     List<Map<String, Object>> data_list;
     String[] classes = {"类别1", "类别2", "类别3", "类别4", "类别5", "类别6", "类别7", "类别8", "类别9", "类别10"};
+
+    //菜单
+    ImageView mPopupMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +119,16 @@ public class NewsActivity extends AppCompatActivity {
                         Toast.makeText(NewsActivity.this, outStr, Toast.LENGTH_SHORT).show();
                     }
                 });
+
+        //菜单部分
+        mPopupMenu = findViewById(R.id.menu_imageView);
+        mPopupMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showPopupMenu();
+            }
+        });
+
     }
 
     void gridSetting() {
@@ -138,5 +156,29 @@ public class NewsActivity extends AppCompatActivity {
             String input = "Item " + i + ": random number =" + ran.nextInt(100);
             newsList.add(new NewsItem(input, R.drawable.ic_launcher_foreground));
         }
+    }
+    //弹出菜单方法
+    private void showPopupMenu(){
+        PopupMenu popupMenu = new PopupMenu(this,mPopupMenu);
+        popupMenu.inflate(R.menu.my_menu);
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                switch (menuItem.getItemId()){
+                    case R.id.option_favorite:
+                        Intent intentFavorite = new Intent(NewsActivity.this, FavoriteActivity.class);
+                        startActivity(intentFavorite);
+                        return true;
+                    case R.id.option_setting:
+                        Intent intentSetting = new Intent(NewsActivity.this, SettingActivity.class);
+                        startActivity(intentSetting);
+                        return true;
+                    default:
+                        //do nothing
+                }
+                return false;
+            }
+        });
+        popupMenu.show();
     }
 }
