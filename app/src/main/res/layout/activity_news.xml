@@ -7,6 +7,7 @@
     tools:context=".news.newsList.NewsActivity">
 
     <LinearLayout
+        android:id="@+id/news_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -57,6 +58,7 @@
             android:orientation="horizontal">
 
             <HorizontalScrollView
+                android:id="@+id/class_scroll"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

@@ -2,25 +2,34 @@ package com.java.news.news.newsList;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
+import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.java.news.R;
+import com.java.news.main.MainActivity;
 import com.java.news.main.SettingActivity;
+import com.java.news.myitems.ClassAdaptor;
+import com.java.news.myitems.CustomPopupWindow;
 import com.java.news.myitems.NewsAdaptor;
 import com.java.news.myitems.NewsItem;
 import com.java.news.myitems.RefreshableView;
@@ -42,9 +51,13 @@ public class NewsActivity extends AppCompatActivity {
 
     // 分类栏信息
     GridView classView;
-    SimpleAdapter classAdapter;
+    HorizontalScrollView scrollView;
+    ClassAdaptor classAdapter;
     List<Map<String, Object>> data_list;
     static public String[] classes = {"类别1", "类别2", "类别3", "类别4", "类别5", "类别6", "类别7", "类别8", "类别9", "类别10"};
+    CustomPopupWindow mPop;
+    GridView mPopGridView;
+    int itemWidth;
 
     //菜单
     ImageView mPopupMenu;
@@ -97,7 +110,8 @@ public class NewsActivity extends AppCompatActivity {
                 });
 
         // 新闻分类选项栏
-        classView = (GridView) findViewById(R.id.class_view);
+        classView = findViewById(R.id.class_view);
+        scrollView=findViewById(R.id.class_scroll);
         // 新建适配器
         data_list = new ArrayList<>();
         for (int i = 0; i < classes.length; i++) {
@@ -107,7 +121,7 @@ public class NewsActivity extends AppCompatActivity {
         }
         String[] from = {"text"};
         int[] to = {R.id.class_text};
-        classAdapter = new SimpleAdapter(this, data_list, R.layout.class_item, from, to);
+        classAdapter = new ClassAdaptor(this, data_list, R.layout.class_item, from, to);
 
         gridSetting();
         classView.setAdapter(classAdapter);
@@ -124,14 +138,30 @@ public class NewsActivity extends AppCompatActivity {
                     }
                 });
         //让第一个变色
-        classView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                save=classView.getChildAt(0).findViewById(R.id.class_text);
-                save.setTextColor(getResources().getColor(R.color.colorClassChoose));
-            }
-        });
-
+//        classView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//            @Override
+//            public void onGlobalLayout() {
+//                save=classView.getChildAt(0).findViewById(R.id.class_text);
+//                save.setTextColor(getResources().getColor(R.color.colorClassChoose));
+//            }
+//        });
+        //分类栏弹出部分
+        mPop=new CustomPopupWindow(this);
+        mPopGridView=mPop.gridView;
+        mPopGridView.setAdapter(classAdapter);
+        mPopGridView.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(
+                            AdapterView<?> parent, View view, int position, long id) {
+                        classChoose(position);
+                        char outChar = (char) (position + '1');
+                        String outStr = "click on " + outChar;
+                        Toast.makeText(NewsActivity.this, outStr, Toast.LENGTH_SHORT).show();
+                        scrollToPosition(position);
+                        mPop.dismiss();
+                    }
+                });
 
         //菜单部分
         mPopupMenu = findViewById(R.id.menu_imageView);
@@ -151,13 +181,13 @@ public class NewsActivity extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         float density = dm.density;
         int gridviewWidth = (int) (size * (length + 4) * density);
-        int itemWidth = (int) (length * density);
+        itemWidth = (int) (length * density);
 
         LinearLayout.LayoutParams params =
                 new LinearLayout.LayoutParams(gridviewWidth, LinearLayout.LayoutParams.FILL_PARENT);
         classView.setLayoutParams(params); // 设置GirdView布局参数,横向布局的关键
         classView.setColumnWidth(itemWidth); // 设置列表项宽
-        classView.setHorizontalSpacing(5); // 设置列表项水平间距
+        classView.setHorizontalSpacing(0); // 设置列表项水平间距
         classView.setStretchMode(GridView.NO_STRETCH);
         classView.setNumColumns(size); // 设置列数量=列表集合数
     }
@@ -197,22 +227,27 @@ public class NewsActivity extends AppCompatActivity {
 
     void classChoose(int position)
     {
+        classAdapter.setPosition(position);
 //        System.out.println(classView.getCount());
-        for(int i=0;i<classView.getCount();i++){
-            View v=classView.getChildAt(i);
-            if (position == i) {
-                save=v.findViewById(R.id.class_text);
-                save.setTextColor(getResources().getColor(R.color.colorClassChoose));
-            } else {
-                save=v.findViewById(R.id.class_text);
-                save.setTextColor(getResources().getColor(R.color.colorClassNotChoose));
-            }
-        }
+//        for(int i=0;i<classView.getCount();i++){
+//            View v=classView.getChildAt(i);
+//            if (position == i) {
+//                save=v.findViewById(R.id.class_text);
+//                save.setTextColor(getResources().getColor(R.color.colorClassChoose));
+//            } else {
+//                save=v.findViewById(R.id.class_text);
+//                save.setTextColor(getResources().getColor(R.color.colorClassNotChoose));
+//            }
+//        }
     }
 
     public void classChoosePage(View view)
     {
-        Intent intent = new Intent(NewsActivity.this, ClassActivity.class);
-        startActivity(intent);
+        mPop.showAtLocation(NewsActivity.this.findViewById(R.id.news_view), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
+    }
+
+    void scrollToPosition(int position)
+    {
+        scrollView.scrollTo(position*itemWidth,0);
     }
 }

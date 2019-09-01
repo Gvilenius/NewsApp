@@ -48,7 +48,6 @@ public class ClassActivity extends AppCompatActivity {
         int[] to = {R.id.class_text};
         classAdapter = new SimpleAdapter(this, data_list, R.layout.class_item, from, to);
 
-        gridSetting();
         classView.setAdapter(classAdapter);
 
         classView.setOnItemClickListener(
@@ -71,21 +70,5 @@ public class ClassActivity extends AppCompatActivity {
         });
     }
 
-    void gridSetting() {
-//        int size = classes.length;
-//        int length = 60;
-//        DisplayMetrics dm = new DisplayMetrics();
-//        getWindowManager().getDefaultDisplay().getMetrics(dm);
-//        float density = dm.density;
-//        int gridviewWidth = (int) (size * (length + 4) * density);
-//        int itemWidth = (int) (length * density);
-//
-//        LinearLayout.LayoutParams params =
-//                new LinearLayout.LayoutParams(gridviewWidth, LinearLayout.LayoutParams.FILL_PARENT);
-//        classView.setLayoutParams(params); // 设置GirdView布局参数,横向布局的关键
-//        classView.setColumnWidth(itemWidth); // 设置列表项宽
-//        classView.setHorizontalSpacing(5); // 设置列表项水平间距
-//        classView.setStretchMode(GridView.NO_STRETCH);
-//        classView.setNumColumns(auto); // 设置列数量=列表集合数
-    }
+
 }
