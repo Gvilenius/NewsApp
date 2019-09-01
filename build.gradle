@@ -18,6 +18,9 @@ buildscript {
 
         google()
         jcenter()
+        mavenCentral()
+
+        jcenter{url "http://jcenter.bintray.com/"}
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.4.2'
@@ -42,5 +45,12 @@ allprojects {
         maven { url 'https://github.com/WickeDev/stetho-realm/raw/master/maven-repo' }
         google()
         jcenter()
+        mavenCentral()
+
+        jcenter{url "http://jcenter.bintray.com/"}
     }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }
