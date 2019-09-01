@@ -12,6 +12,8 @@ import com.java.news.http.RetrofitManager;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
 public class NewsListPresenter implements NewsListContract.Presenter {
@@ -29,29 +31,58 @@ public class NewsListPresenter implements NewsListContract.Presenter {
     @SuppressLint("CheckResult")
     @Override
     public void loadMore() {
-        Observable<NewsResponse> o = RetrofitManager.getInstance().fetchNewsList(PAGE_SIZE, mKeyword, mCatogory);
-        o.subscribe(new Consumer<NewsResponse>(){
-            @Override
-            public void accept(NewsResponse value) throws Exception{
-                List<NewsEntity> newsList = value.getNewsList();
+        RetrofitManager.getInstance().fetchNewsList(PAGE_SIZE, mKeyword, mCatogory)
+                .subscribe(new Observer<NewsResponse>(){
+                    private Disposable disposable;
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposable = d;
+                    }
 
-                //To handle the data here, for exmple
-                mNewsListView.appendNewsList(newsList);
-            }
-        });
+                    @Override
+                    public void onNext(NewsResponse value){
+                        List<NewsEntity> newsList = value.getNewsList();
+
+                        //                To handle the data here, for exmple
+                        mNewsListView.appendNewsList(newsList);
+                    }
+                    @Override
+                    public void onError(Throwable e) {
+                        System.out.println("Error");
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
     @SuppressLint("CheckResult")
     @Override
     public void refresh() {
-        Observable<NewsResponse> o = RetrofitManager.getInstance().fetchNewsList(PAGE_SIZE, mKeyword, mCatogory);
-        o.subscribe(new Consumer<NewsResponse>(){
+        RetrofitManager.getInstance().fetchNewsList(PAGE_SIZE, mKeyword, mCatogory)
+        .subscribe(new Observer<NewsResponse>(){
+            private Disposable disposable;
             @Override
-            public void accept(NewsResponse value) throws Exception{
-                List<NewsEntity> newsList = value.getNewsList();
+            public void onSubscribe(Disposable d) {
+                disposable = d;
+            }
 
-                //To handle the data here, for exmple
+            @Override
+            public void onNext(NewsResponse value){
+                List<NewsEntity> newsList = value.getNewsList();
+                //                To handle the data here, for exmple
                 mNewsListView.setNewsList(newsList);
+            }
+            @Override
+            public void onError(Throwable e) {
+                System.out.println("Error");
+            }
+
+            @Override
+            public void onComplete() {
+
             }
         });
     }
