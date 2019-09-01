@@ -15,14 +15,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".main.SettingActivity"></activity>
+        <activity android:name=".news.newsList.ClassActivity"></activity>
+        <activity android:name=".main.SettingActivity" />
         <activity android:name=".news.newsList.FavoriteActivity" />
         <activity android:name=".news.newsDetail.NewsDetailActivity" />
         <activity
             android:name=".news.newsList.NewsActivity"
             android:windowSoftInputMode="adjustPan"> <!-- 使得打字时窗口大小不变 -->
         </activity>
-
         <activity
             android:name=".main.MainActivity"
             android:windowSoftInputMode="adjustPan"> <!-- 使得打字时窗口大小不变 -->

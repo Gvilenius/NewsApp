@@ -14,6 +14,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:background="@color/search"
             android:orientation="horizontal">
 
             <ImageView
@@ -32,11 +33,10 @@
                 android:inputType="textPersonName"
                 android:textSize="20sp" />
 
-            <Button
+            <TextView
                 android:id="@+id/search_button"
-                android:layout_width="wrap_content"
+                android:layout_width="60dp"
                 android:layout_height="match_parent"
-                android:background="@android:color/background_light"
                 android:gravity="center"
                 android:textSize="20sp"
                 android:text="搜索" />
@@ -46,13 +46,14 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="5dp"
-                app:srcCompat="@drawable/menu" />
+                app:srcCompat="@drawable/star" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="30dp"
+            android:background="@color/colorClass"
             android:orientation="horizontal">
 
             <HorizontalScrollView
@@ -69,17 +70,19 @@
                     <GridView
                         android:id="@+id/class_view"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="match_parent"
                         android:gravity="center"
                         android:numColumns="auto_fit"
                         android:stretchMode="spacingWidthUniform" />
                 </LinearLayout>
             </HorizontalScrollView>
+
             <ImageView
                 android:id="@+id/choose_imageView"
                 android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_height="match_parent"
                 android:layout_margin="5dp"
+                android:onClick="classChoosePage"
                 app:srcCompat="@drawable/menu" />
         </LinearLayout>
 

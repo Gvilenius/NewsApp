@@ -3,10 +3,12 @@ package com.java.news.news.newsList;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -42,10 +44,11 @@ public class NewsActivity extends AppCompatActivity {
     GridView classView;
     SimpleAdapter classAdapter;
     List<Map<String, Object>> data_list;
-    String[] classes = {"类别1", "类别2", "类别3", "类别4", "类别5", "类别6", "类别7", "类别8", "类别9", "类别10"};
+    static public String[] classes = {"类别1", "类别2", "类别3", "类别4", "类别5", "类别6", "类别7", "类别8", "类别9", "类别10"};
 
     //菜单
     ImageView mPopupMenu;
+    TextView save;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,11 +117,21 @@ public class NewsActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(
                             AdapterView<?> parent, View view, int position, long id) {
+                        classChoose(position);
                         char outChar = (char) (position + '1');
                         String outStr = "click on " + outChar;
                         Toast.makeText(NewsActivity.this, outStr, Toast.LENGTH_SHORT).show();
                     }
                 });
+        //让第一个变色
+        classView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                save=classView.getChildAt(0).findViewById(R.id.class_text);
+                save.setTextColor(getResources().getColor(R.color.colorClassChoose));
+            }
+        });
+
 
         //菜单部分
         mPopupMenu = findViewById(R.id.menu_imageView);
@@ -158,7 +171,7 @@ public class NewsActivity extends AppCompatActivity {
         }
     }
     //弹出菜单方法
-    private void showPopupMenu(){
+    void showPopupMenu(){
         PopupMenu popupMenu = new PopupMenu(this,mPopupMenu);
         popupMenu.inflate(R.menu.my_menu);
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -180,5 +193,26 @@ public class NewsActivity extends AppCompatActivity {
             }
         });
         popupMenu.show();
+    }
+
+    void classChoose(int position)
+    {
+//        System.out.println(classView.getCount());
+        for(int i=0;i<classView.getCount();i++){
+            View v=classView.getChildAt(i);
+            if (position == i) {
+                save=v.findViewById(R.id.class_text);
+                save.setTextColor(getResources().getColor(R.color.colorClassChoose));
+            } else {
+                save=v.findViewById(R.id.class_text);
+                save.setTextColor(getResources().getColor(R.color.colorClassNotChoose));
+            }
+        }
+    }
+
+    public void classChoosePage(View view)
+    {
+        Intent intent = new Intent(NewsActivity.this, ClassActivity.class);
+        startActivity(intent);
     }
 }
