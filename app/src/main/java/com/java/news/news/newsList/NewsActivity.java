@@ -317,9 +317,10 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
             else
                 mURLs.add("");
             mIDs.add(o.getNewsID());
+//            System.out.println(o.getImgUrls().size());
         }
         mRefreshAdapter.RefreshTheView();
-//        System.out.println(mTitles);
+
     }
 
     @Override

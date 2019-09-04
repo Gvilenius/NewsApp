@@ -5,8 +5,6 @@ package com.java.news.news.newsList;
 
 import android.annotation.SuppressLint;
 
-import androidx.annotation.BinderThread;
-
 import com.java.news.data.NewsEntity;
 import com.java.news.data.RealmHelper;
 import com.java.news.http.NewsResponse;

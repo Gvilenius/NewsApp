@@ -8,18 +8,9 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.java.news.R;
-import com.java.news.data.NewsEntity;
-import com.java.news.data.RealmHelper;
-import com.java.news.http.NewsResponse;
 import com.java.news.http.RetrofitManager;
 import com.java.news.myitems.MyButton;
 import com.java.news.news.newsList.NewsActivity;
-
-import java.util.List;
-
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
-import io.realm.Realm;
 
 public class MainActivity extends AppCompatActivity implements  MainContract.View{
 
@@ -44,36 +35,36 @@ public class MainActivity extends AppCompatActivity implements  MainContract.Vie
 //        EditText editText = (EditText) findViewById(R.id.editText);
 //        String message = editText.getText().toString();
 //        intent.putExtra(EXTRA_MESSAGE, message);
-//        startActivity(intent);
-        final RealmHelper dbHelper = RealmHelper.getInstance();
-        RetrofitManager.getInstance().fetchNewsList("1000", "", "")
-                .subscribe(new Observer<NewsResponse>(){
-
-                    private Disposable disposable;
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        disposable = d;
-                    }
-
-                    @Override
-                    public void onNext(NewsResponse value){
-                        List<NewsEntity> newsList = value.getNewsList();
-                        for (NewsEntity news: newsList){
-                            dbHelper.insertFavorate(news);
-                            System.out.println(news.getImgUrls());
-                        }
-        //                To handle the data here, for exmple
-                    }
-                    @Override
-                    public void onError(Throwable e) {
-                        System.out.println("Error");
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
+        startActivity(intent);
+//        final RealmHelper dbHelper = RealmHelper.getInstance();
+//        RetrofitManager.getInstance().fetchNewsList("1000", "", "")
+//                .subscribe(new Observer<NewsResponse>(){
+//
+//                    private Disposable disposable;
+//                    @Override
+//                    public void onSubscribe(Disposable d) {
+//                        disposable = d;
+//                    }
+//
+//                    @Override
+//                    public void onNext(NewsResponse value){
+//                        List<NewsEntity> newsList = value.getNewsList();
+//                        for (NewsEntity news: newsList){
+//                            dbHelper.insertFavorate(news);
+//                            System.out.println(news.getImgUrls());
+//                        }
+//        //                To handle the data here, for exmple
+//                    }
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        System.out.println("Error");
+//                    }
+//
+//                    @Override
+//                    public void onComplete() {
+//
+//                    }
+//                });
 
 //        Realm realm=Realm.getDefaultInstance();
 //        RealmResults<NewsEntity> result2 = realm.where(NewsEntity.class)

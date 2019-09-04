@@ -10,11 +10,14 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="10dp"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
         android:layout_weight="1"
         android:textSize="24sp" />
     <ImageView
         android:id="@+id/news_image"
-        android:layout_width="65dp"
+        android:layout_width="80dp"
         android:layout_height="65dp"
+        android:layout_gravity="center_vertical"
         android:layout_margin="5dp" />
 </LinearLayout>

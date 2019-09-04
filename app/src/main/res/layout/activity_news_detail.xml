@@ -16,7 +16,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:paddingBottom="50dp">
+
 
             <TextView
                 android:id="@+id/news_detail_title"
@@ -25,14 +27,42 @@
                 android:layout_marginTop="20dp"
                 android:gravity="start|top"
                 android:textSize="24sp" />
+            <TextView
+                android:id="@+id/news_detail_publisher"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="start|top"
+                android:textSize="12sp" />
+            <TextView
+                android:id="@+id/news_detail_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="start|top"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:id="@+id/news_detail_image1"
+                android:adjustViewBounds="true"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="10dp" />
 
             <TextView
                 android:id="@+id/news_detail_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:gravity="start|top"
                 android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/news_detail_image2"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:adjustViewBounds="true"
+                android:layout_marginTop="10dp" />
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

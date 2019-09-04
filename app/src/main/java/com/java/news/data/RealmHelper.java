@@ -8,7 +8,6 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmAsyncTask;
-import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 
 public class RealmHelper {
@@ -38,6 +37,7 @@ public class RealmHelper {
                     @Override
                     public void execute(Realm realm) {
                         for (NewsEntity news : newsList) {
+                            news.getImgUrls();
                             realm.copyToRealmOrUpdate(news);
                         }
                     }
