@@ -48,6 +48,7 @@ public class RealmHelper {
                     @Override
                     public void execute(Realm realm) {
                         for (NewsEntity news : newsList) {
+                            news.getImgUrls();
                             realm.copyToRealmOrUpdate(news);
                         }
                     }

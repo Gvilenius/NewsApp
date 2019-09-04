@@ -5,8 +5,6 @@ package com.java.news.news.newsList;
 
 import android.annotation.SuppressLint;
 
-import androidx.annotation.BinderThread;
-
 import com.java.news.data.NewsEntity;
 import com.java.news.data.RealmHelper;
 import com.java.news.http.NewsResponse;
@@ -14,13 +12,11 @@ import com.java.news.http.RetrofitManager;
 
 import java.util.List;
 
-import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 
 public class NewsListPresenter implements NewsListContract.Presenter {
-    private final String PAGE_SIZE = "20";
+    private final String PAGE_SIZE = "200";
 
     private NewsListContract.View mNewsListView;
     private String mCatogory;
