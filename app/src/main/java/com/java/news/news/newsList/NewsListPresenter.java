@@ -5,7 +5,10 @@ package com.java.news.news.newsList;
 
 import android.annotation.SuppressLint;
 
+import androidx.annotation.BinderThread;
+
 import com.java.news.data.NewsEntity;
+import com.java.news.data.RealmHelper;
 import com.java.news.http.NewsResponse;
 import com.java.news.http.RetrofitManager;
 
@@ -51,7 +54,7 @@ public class NewsListPresenter implements NewsListContract.Presenter {
 
                     @Override
                     public void onComplete() {
-
+                        System.out.println("加载完成");
                     }
                 });
     }
@@ -59,6 +62,7 @@ public class NewsListPresenter implements NewsListContract.Presenter {
     @SuppressLint("CheckResult")
     @Override
     public void refresh() {
+        final RealmHelper dbHelper = RealmHelper.getInstance();
         RetrofitManager.getInstance().fetchNewsList(PAGE_SIZE, mKeyword, mCatogory)
         .subscribe(new Observer<NewsResponse>(){
             private Disposable disposable;
@@ -71,6 +75,7 @@ public class NewsListPresenter implements NewsListContract.Presenter {
             public void onNext(NewsResponse value){
                 List<NewsEntity> newsList = value.getNewsList();
                 //                To handle the data here, for exmple
+                dbHelper.insertNewsList(newsList);
                 mNewsListView.setNewsList(newsList);
             }
             @Override
@@ -80,7 +85,7 @@ public class NewsListPresenter implements NewsListContract.Presenter {
 
             @Override
             public void onComplete() {
-
+                System.out.println("刷新完成");
             }
         });
     }
@@ -94,5 +99,4 @@ public class NewsListPresenter implements NewsListContract.Presenter {
     public void switch2NewsDetail(NewsEntity news) {
 //        Intent intent = new Intent(mNewsListView, NewsDetailActivity.class);
     }
-
 }
