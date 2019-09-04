@@ -8,8 +8,10 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.java.news.R;
+import com.java.news.data.Keyword;
 import com.java.news.data.NewsEntity;
 import com.java.news.data.NewsFavorEntity;
+import com.java.news.data.NewsHisEntity;
 import com.java.news.data.RealmHelper;
 import com.java.news.http.NewsResponse;
 import com.java.news.http.RetrofitManager;
@@ -58,12 +60,11 @@ public class MainActivity extends AppCompatActivity implements  MainContract.Vie
                     @Override
                     public void onNext(NewsResponse value){
                         List<NewsEntity> newsList = value.getNewsList();
-
-                        for (NewsEntity news: newsList){
-                            dbHelper.insertFavor(new NewsFavorEntity(news));
-                            System.out.println(news.getImgUrls());
-                        }
+                        dbHelper.insertNewsList(newsList);
+                        dbHelper.insertNewsHis(new NewsHisEntity(newsList.get(0)));
+                        dbHelper.insertFavor(new NewsFavorEntity(newsList.get(0)));
         //                To handle the data here, for exmple
+                        System.out.println(dbHelper.getNewsByRecommend().get(0).getTitle());
                     }
                     @Override
                     public void onError(Throwable e) {

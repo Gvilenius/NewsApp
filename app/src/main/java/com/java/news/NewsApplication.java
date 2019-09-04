@@ -50,6 +50,13 @@ public class NewsApplication extends Application {
                                 realm.deleteAll();
                             }
                         });
+
+        Realm.getDefaultInstance().executeTransaction(new Realm.Transaction(){
+            @Override
+            public void execute(Realm realm) {
+                realm.deleteAll();
+            }
+        });
     }
     @Override
     public void onTerminate() {
