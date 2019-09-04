@@ -1,10 +1,10 @@
 package com.java.news.news.newsDetail;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.java.news.R;
 
@@ -19,9 +19,10 @@ public class NewsDetailActivity extends AppCompatActivity {
         info=findViewById(R.id.news_detail_info);
 
         Intent intent=getIntent();
-        String newsTitle = intent.getStringExtra("news_detail_title");
-        String newsInfo = intent.getStringExtra("news_detail_info");
-        title.setText(newsTitle);
-        info.setText(newsInfo);
+        String newsID = intent.getStringExtra("NewsID");
+
+
+//        title.setText(newsTitle);
+//        info.setText(newsInfo);
     }
 }

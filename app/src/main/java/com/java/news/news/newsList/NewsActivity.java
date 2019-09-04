@@ -1,53 +1,56 @@
 package com.java.news.news.newsList;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.PopupMenu;
-import android.widget.ScrollView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.java.news.R;
-import com.java.news.main.MainActivity;
+import com.java.news.data.NewsEntity;
 import com.java.news.main.SettingActivity;
 import com.java.news.myitems.ClassAdaptor;
 import com.java.news.myitems.CustomPopupWindow;
-import com.java.news.myitems.NewsAdaptor;
-import com.java.news.myitems.NewsItem;
-import com.java.news.myitems.RefreshableView;
-import com.java.news.news.newsDetail.NewsDetailActivity;
+import com.java.news.myitems.RefreshAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
-public class NewsActivity extends AppCompatActivity {
+public class NewsActivity extends AppCompatActivity implements NewsListContract.View{
+    private NewsListContract.Presenter mPresenter;
+
     // 刷新栏信息
-    RefreshableView refreshableView;
-    ListView listView;
-    NewsAdaptor adapter;
-    List<NewsItem> newsList = new ArrayList<>();
-    int numOfItems = 10;
+    RecyclerView mRecyclerView;
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    List<String> mTitles = new ArrayList<>();
+    List<String> mURLs = new ArrayList<>();
+    List<String> mIDs = new ArrayList<>();
+    private RefreshAdapter mRefreshAdapter;
+    private LinearLayoutManager mLinearLayoutManager;
+//    SwipeRefreshLayout mSwipeRefreshWidget;
+//    RecyclerView mRecyclerView;
+////    SimpleAdapter adapter;
+//    LinearLayoutManager mLayoutManager;
+//    List<NewsItem> newsList = new ArrayList<>();
+//    int numOfItems = 10;
 
     // 分类栏信息
     GridView classView;
@@ -63,51 +66,32 @@ public class NewsActivity extends AppCompatActivity {
     ImageView mPopupMenu;
     TextView save;
 
+//    @Override
+//    public void onRefresh() {//刷新
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+////                pageNumber = 0;//分页加载数据的变量
+////                waitList.clear();//清空数据集合
+////                PostData();//加载数据
+//                mSwipeRefreshWidget.setRefreshing(false);//刷新旋转动画停止
+//            }
+//        }, 1000);
+//    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_news);
-        refreshableView = (RefreshableView) findViewById(R.id.refreshable_view);
-        listView = (ListView) findViewById(R.id.list_view);
-        refreshList();
-        adapter = new NewsAdaptor(this, R.layout.news_item, newsList);
-        listView.setAdapter(adapter);
-        refreshableView.setOnRefreshListener(
-                new RefreshableView.PullToRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        try {
-                            refreshList();
-                            Thread.sleep(3000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        refreshableView.finishRefreshing();
-                    }
-                },
-                0);
 
-        listView.setOnItemClickListener(
-                new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(
-                            AdapterView<?> parent, View view, int position, long id) {
-                        Intent intent = new Intent(NewsActivity.this, NewsDetailActivity.class);
-                        String newsTitle = "News " + (char) (position + '0');
-                        String newsInfo =
-                                "This is the information in the news "
-                                        + (char) (position + '0')
-                                        + ".\nI use it for test.\nTo see what will happen...";
-                        intent.putExtra("news_detail_title", newsTitle);
-                        intent.putExtra("news_detail_info", newsInfo);
-                        startActivity(intent);
-                        //                        char outChar=(char)(position+'0');
-                        //                        String outStr="click on "+outChar;
-                        //                        Toast.makeText(NewsActivity.this,
-                        // outStr,Toast.LENGTH_SHORT).show();
-                    }
-                });
+        mPresenter=new NewsListPresenter(this,"aa","aa");
+
+        mRecyclerView = findViewById(R.id.news_list);
+        mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        initView();
+        initData();
+        initListener();
 
         // 新闻分类选项栏
         classView = findViewById(R.id.class_view);
@@ -192,14 +176,14 @@ public class NewsActivity extends AppCompatActivity {
         classView.setNumColumns(size); // 设置列数量=列表集合数
     }
 
-    void refreshList() {
-        newsList.clear();
-        Random ran = new Random();
-        for (int i = 0; i < numOfItems; i++) {
-            String input = "Item " + i + ": random number =" + ran.nextInt(100);
-            newsList.add(new NewsItem(input, R.drawable.ic_launcher_foreground));
-        }
-    }
+//    void refreshList() {
+//        newsList.clear();
+//        Random ran = new Random();
+//        for (int i = 0; i < numOfItems; i++) {
+//            String input = "Item " + i + ": random number =" + ran.nextInt(100);
+//            newsList.add(new NewsItem(input, R.drawable.ic_launcher_foreground));
+//        }
+//    }
     //弹出菜单方法
     void showPopupMenu(){
         PopupMenu popupMenu = new PopupMenu(this,mPopupMenu);
@@ -250,4 +234,102 @@ public class NewsActivity extends AppCompatActivity {
     {
         scrollView.scrollTo(position*itemWidth,0);
     }
+
+    //刷新部分初始化
+    private void initView() {
+        mSwipeRefreshLayout.setColorSchemeColors(Color.RED,Color.BLUE,Color.GREEN);
+    }
+
+    private void initData() {
+        mPresenter.refresh();
+        initRecylerView();
+    }
+
+    private void initRecylerView() {
+        mRefreshAdapter = new RefreshAdapter(this,mTitles,mURLs,mIDs);
+        mLinearLayoutManager = new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+        mRecyclerView.setAdapter(mRefreshAdapter);
+    }
+
+    private void initListener() {
+        initPullRefresh();
+        initLoadMoreListener();
+    }
+
+    private void initPullRefresh() {
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mPresenter.refresh();
+                        //刷新完成
+                        mSwipeRefreshLayout.setRefreshing(false);
+//                        Toast.makeText(NewsActivity.this, "更新了 "+headDatas.size()+" 条目数据", Toast.LENGTH_SHORT).show();
+                    }
+                }, 2000);
+            }
+        });
+    }
+
+    private void initLoadMoreListener() {
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            int lastVisibleItem ;
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                //判断RecyclerView的状态 是空闲时，同时，是最后一个可见的ITEM时才加载
+                if(newState==RecyclerView.SCROLL_STATE_IDLE&&lastVisibleItem+1==mRefreshAdapter.getItemCount()){
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mPresenter.refresh();
+                            Toast.makeText(NewsActivity.this, "loading", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(NewsActivity.this, "更新了 "+footerDatas.size()+" 条目数据", Toast.LENGTH_SHORT).show();
+                        }
+                    }, 1000);
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                //最后一个可见的ITEM
+                lastVisibleItem=layoutManager.findLastVisibleItemPosition();
+            }
+        });
+
+    }
+
+    @Override
+    public void setNewsList(List<NewsEntity> newsList) {
+        mTitles.clear();
+        mURLs.clear();
+        for(NewsEntity o:newsList)
+        {
+//            System.out.println(o.getTitle());
+            mTitles.add(o.getTitle());
+            if(!o.getImgUrls().isEmpty())
+                mURLs.add(o.getImgUrls().first());
+            else
+                mURLs.add("");
+            mIDs.add(o.getNewsID());
+        }
+        mRefreshAdapter.RefreshTheView();
+//        System.out.println(mTitles);
+    }
+
+    @Override
+    public void appendNewsList(List<NewsEntity> newsList) {
+
+    }
+
+    @Override
+    public void onError() {
+
+    }
 }
+
