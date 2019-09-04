@@ -27,8 +27,8 @@ public class NewsEntity extends RealmObject{
         private String image;
 
         public RealmList<String> getImgUrls(){
-            if (imgUrls == null && image != "") {
-                String pattern =  "http.*\\.((jpe?g)|(png))";
+            if (imgUrls == null) {
+                String pattern =  "http.*\\.((j[pe]{1,2}g)|(png))";
                 Pattern p = Pattern.compile(pattern);
                 Matcher m = p.matcher(image);
                 RealmList<String> urls = new RealmList<>();

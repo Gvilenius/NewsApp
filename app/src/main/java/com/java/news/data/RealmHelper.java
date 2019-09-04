@@ -9,6 +9,7 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmAsyncTask;
 import io.realm.RealmConfiguration;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 
 public class RealmHelper {
@@ -29,6 +30,10 @@ public class RealmHelper {
         return instance;
     }
 
+    public RealmResults<NewsEntity> getNewsByKeyword(final String keyword){
+        return mRealm.where(NewsEntity.class).like("content", keyword).findAll();
+    }
+
     public NewsEntity getNewsByID(String newsID){
         return mRealm.where(NewsEntity.class).equalTo("newsID", newsID).findFirst();
     }
@@ -44,7 +49,7 @@ public class RealmHelper {
                 });
     }
 
-    public void insertFavorate(final NewsEntity news){
+    public void insertFavor(final NewsFavorEntity news){
         mRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -53,12 +58,13 @@ public class RealmHelper {
         });
     }
 
-    public void deleteFavorate(final String newsID){
+
+    public void deleteFavor(final String newsID){
 
         RealmAsyncTask realmAsyncTask = mRealm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                RealmResults<NewsEntity> news = realm.where(NewsEntity.class).findAll();
+                RealmResults<NewsFavorEntity> news = realm.where(NewsFavorEntity.class).findAll();
                 news.deleteFirstFromRealm();
             }
         }, new Realm.Transaction.OnSuccess() {
@@ -74,14 +80,32 @@ public class RealmHelper {
         });
     }
 
-    public void insertReadHis(){
+
+    public void insertReadHis(final NewsHisEntity newsHis){
+        mRealm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.copyToRealmOrUpdate(newsHis);
+            }
+        });
+    }
+
+    public void deleteReadHis(){
 
     }
 
-    public void insertSearchHis(){
-
+    public void insertSearchHis(final SearchHis searchHis){
+        mRealm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.copyToRealmOrUpdate(searchHis);
+            }
+        });
     }
 
+    public void deleteSearchHis(){
+
+    }
     public void deleteAllSearchHis(){
 
     }

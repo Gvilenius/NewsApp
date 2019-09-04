@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.java.news.R;
 import com.java.news.data.NewsEntity;
+import com.java.news.data.NewsFavorEntity;
 import com.java.news.data.RealmHelper;
 import com.java.news.http.NewsResponse;
 import com.java.news.http.RetrofitManager;
@@ -19,7 +20,6 @@ import java.util.List;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
-import io.realm.Realm;
 
 public class MainActivity extends AppCompatActivity implements  MainContract.View{
 
@@ -58,8 +58,9 @@ public class MainActivity extends AppCompatActivity implements  MainContract.Vie
                     @Override
                     public void onNext(NewsResponse value){
                         List<NewsEntity> newsList = value.getNewsList();
+
                         for (NewsEntity news: newsList){
-                            dbHelper.insertFavorate(news);
+                            dbHelper.insertFavor(new NewsFavorEntity(news));
                             System.out.println(news.getImgUrls());
                         }
         //                To handle the data here, for exmple
