@@ -292,9 +292,7 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
                         @Override
                         public void run() {
 
-                            mPresenter.refresh();
-                            //设置回到上拉加载更多
-                            mRefreshAdapter.changeMoreStatus(mRefreshAdapter.PULLUP_LOAD_MORE);
+                            mPresenter.loadMore();
 //                            Toast.makeText(NewsActivity.this, "更新了 "+footerDatas.size()+" 条目数据", Toast.LENGTH_SHORT).show();
                         }
                     }, 1000);
@@ -332,12 +330,25 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
 //            System.out.println(o.getImgUrls().size());
         }
         mRefreshAdapter.changeMoreStatus(mRefreshAdapter.PULLUP_LOAD_MORE);
-
     }
 
     @Override
     public void appendNewsList(List<NewsEntity> newsList) {
-
+        for(NewsEntity o:newsList)
+        {
+//            System.out.println(o.getTitle());
+            mTitles.add(o.getTitle());
+            if(!o.getImgUrls().isEmpty())
+                mURLs.add(o.getImgUrls().first());
+            else
+                mURLs.add("null");
+            mIDs.add(o.getNewsID());
+//            System.out.println(o.getImgUrls().size());
+        }
+        if(newsList.size()>0)
+            mRefreshAdapter.changeMoreStatus(mRefreshAdapter.PULLUP_LOAD_MORE);
+        else
+            mRefreshAdapter.changeMoreStatus(mRefreshAdapter.NO_LOAD_MORE);
     }
 
     @Override

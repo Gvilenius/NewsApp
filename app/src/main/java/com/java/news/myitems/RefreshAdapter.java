@@ -85,7 +85,8 @@ public class RefreshAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     break;
                 case NO_LOAD_MORE:
                     //隐藏加载更多
-                    footerViewHolder.mLoadLayout.setVisibility(View.GONE);
+                    footerViewHolder.mTvLoadText.setText("没有更多了");
+                    footerViewHolder.mPbLoad.setVisibility(View.GONE);
                     break;
             }
         }
