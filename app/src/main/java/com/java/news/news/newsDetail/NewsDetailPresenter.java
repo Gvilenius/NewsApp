@@ -19,12 +19,7 @@ public class NewsDetailPresenter implements NewsDetailContract.Presenter {
     }
     @Override
     public void addHis(NewsEntity news) {
-        mRealm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                news.setRead(true);
-            }
-        });
+
 //        dbHelper.insertOrUpdateNews(news);
     }
 
