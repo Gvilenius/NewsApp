@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".main.MainActivity">
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
@@ -16,11 +17,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:orientation="horizontal">
-
 
             <SearchView
                 android:layout_width="50dp"
@@ -33,9 +35,15 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="@string/search_hint"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                />
         </LinearLayout>
-        
+
+
+
+
+
+
 
         <ScrollView
             android:layout_width="match_parent"
@@ -98,6 +106,8 @@
             android:background="@android:color/white"
             android:checkedButton="@+id/v_homePage"
             android:gravity="center_vertical">
+
+
             <RadioButton
                 android:id="@+id/v_homePage"
                 android:layout_width="0dp"

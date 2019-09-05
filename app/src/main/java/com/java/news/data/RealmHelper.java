@@ -66,7 +66,6 @@ public class RealmHelper {
         for (int i = start; i < end; ++i){
             if (i >= query.size()) break;
             newsList.add(query.get(i));
-            System.out.println(newsList.get(i-start).getTitle());
         }
         return newsList;
     }

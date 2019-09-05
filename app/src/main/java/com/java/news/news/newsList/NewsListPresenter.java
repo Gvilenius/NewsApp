@@ -10,6 +10,7 @@ import com.java.news.data.RealmHelper;
 import com.java.news.http.NewsResponse;
 import com.java.news.http.RetrofitManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observer;
@@ -34,7 +35,14 @@ public class NewsListPresenter implements NewsListContract.Presenter {
     @SuppressLint("CheckResult")
     @Override
     public void loadMore() {
-        List<NewsEntity> newsList= dbHelper.getNewsListByPage(mCurrentPage, 10);
+        List<NewsEntity> newsList = dbHelper.getNewsByRecommend();
+        if (mCategory == "推荐") {
+            if (newsList.size() > mCurrentPage * 10 + 10)
+                newsList = newsList.subList(mCurrentPage * 10, mCurrentPage * 10 + 10);
+            else newsList = new ArrayList<>();
+            }
+        else
+            newsList  = dbHelper.getNewsListByPage(mCurrentPage, 10);
         mNewsListView.appendNewsList(newsList);
         mCurrentPage += 1;
     }
@@ -42,6 +50,12 @@ public class NewsListPresenter implements NewsListContract.Presenter {
     @SuppressLint("CheckResult")
     @Override
     public void refresh() {
+
+        if (mCategory == "推荐"){
+            mNewsListView.setNewsList(dbHelper.getNewsByRecommend());
+            return;
+        }
+
         RetrofitManager.getInstance().fetchNewsList(PAGE_SIZE, mKeyword, mCategory)
         .subscribe(new Observer<NewsResponse>(){
             private Disposable disposable;

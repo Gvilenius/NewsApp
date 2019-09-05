@@ -21,6 +21,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.java.news.R;
 import com.java.news.data.NewsEntity;
 import com.java.news.favorites.FavorActivity;
@@ -30,14 +32,22 @@ import com.java.news.myitems.MyData;
 import com.java.news.myitems.RefreshAdapter;
 import com.java.news.myitems.TouTiaoTwoActivity;
 import com.java.news.settings.SettingActivity;
+import com.wyt.searchbox.SearchFragment;
+import com.wyt.searchbox.custom.IOnSearchClickListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class NewsActivity extends AppCompatActivity implements NewsListContract.View{
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class NewsActivity extends AppCompatActivity implements NewsListContract.View, View.OnClickListener {
     private NewsListContract.Presenter mPresenter;
+
+    @BindView(R.id.action_a)  FloatingActionButton actionA;
+    @BindView(R.id.action_b)  FloatingActionButton actionB;
 
     // 刷新栏信息
     RecyclerView mRecyclerView;
@@ -45,6 +55,8 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
     List<MyData> mDatas = new ArrayList<>();
     private RefreshAdapter mRefreshAdapter;
     private LinearLayoutManager mLinearLayoutManager;
+
+    SearchFragment searchFragment = SearchFragment.newInstance();
 //    SwipeRefreshLayout mSwipeRefreshWidget;
 //    RecyclerView mRecyclerView;
 ////    SimpleAdapter adapter;
@@ -85,6 +97,17 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_news);
+        ButterKnife.bind(this);
+        actionA.setOnClickListener(this);
+        searchFragment.setOnSearchClickListener(new IOnSearchClickListener() {
+            @Override
+            public void OnSearchClick(String keyword) {
+                //这里处理逻辑
+                Toast.makeText(NewsActivity.this, keyword, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
 
         mPresenter = new NewsListPresenter(this,"","美国男子野外");
 
@@ -143,7 +166,9 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
         mPopupMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showPopupMenu();
+//                showPopupMenu();
+                searchFragment.showFragment(getSupportFragmentManager(),SearchFragment.TAG);
+
             }
         });
 
@@ -369,6 +394,16 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
     @Override
     public void onError() {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.action_a:
+                break;
+            case R.id.action_b:
+                break;
+        }
     }
 }
 
