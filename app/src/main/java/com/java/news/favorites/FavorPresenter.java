@@ -21,7 +21,7 @@ public class FavorPresenter implements FavorContract.Presenter {
 
     @Override
     public void refresh(){
-        List<NewsEntity> newsList = dbHelper.getNewsByRecommend();
+        List<NewsEntity> newsList = dbHelper.getFavorNews();
         mView.setNewsList(newsList);
     }
 }
