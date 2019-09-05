@@ -24,6 +24,30 @@ public class NewsEntity implements RealmModel, News {
         private String category;
 
 
+        private Boolean isFavor;
+
+        public NewsEntity(){
+            isFavor = false;
+            isRead = false;
+        }
+        public Boolean getFavor() {
+            return isFavor;
+        }
+
+        public void setFavor(Boolean favor) {
+            isFavor = favor;
+        }
+
+        public Boolean getRead() {
+            return isRead;
+        }
+
+        public void setRead(Boolean read) {
+            isRead = read;
+        }
+
+    private Boolean isRead;
+
 
         private RealmList<String> imgUrls;
 
