@@ -54,7 +54,7 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsDetailC
         setFavButton();
 
 //        System.out.println(0);
-        mPresenter.addHis(news);
+        mPresenter.addToHis(news);
 //        System.out.println(1);
         title.setText(news.getTitle());
         publisher.setText(news.getPublisher());
@@ -103,9 +103,9 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsDetailC
     {
         isFavorite=!isFavorite;
         if(isFavorite)
-            mPresenter.addFavor(news);
+            mPresenter.favor(news);
         else
-            mPresenter.removeFavor(news);
+            mPresenter.unFavor(news);
         setFavButton();
     }
 

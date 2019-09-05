@@ -24,7 +24,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.java.news.R;
 import com.java.news.data.NewsEntity;
 import com.java.news.favorites.FavorActivity;
-import com.java.news.myitems.ClassAdaptor;
+import com.java.news.history.HistoryActivity;
+import com.java.news.myitems.ClassAdapter;
 import com.java.news.myitems.CustomPopupWindow;
 import com.java.news.myitems.MyData;
 import com.java.news.myitems.RefreshAdapter;
@@ -56,7 +57,7 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
     // 分类栏信息
     GridView classView;
     HorizontalScrollView scrollView;
-    ClassAdaptor classAdapter;
+    ClassAdapter classAdapter;
     List<Map<String, Object>> data_list;
     static public ArrayList<String> classesMy = new ArrayList<>(Arrays.asList("推荐","财经","科技","社会","汽车","文化","教育","娱乐","军事","健康","体育"));
     static public ArrayList<String> classesAdd =  new ArrayList<>();
@@ -99,7 +100,7 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
         // 新闻分类选项栏
         classView = findViewById(R.id.class_view);
         scrollView=findViewById(R.id.class_scroll);
-        classAdapter = new ClassAdaptor(this, classesMy);
+        classAdapter = new ClassAdapter(this, classesMy);
         gridSetting();
         classView.setAdapter(classAdapter);
 
@@ -188,6 +189,10 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
                     case R.id.option_favorite:
                         Intent intentFavorite = new Intent(NewsActivity.this, FavorActivity.class);
                         startActivity(intentFavorite);
+                        return true;
+                    case R.id.option_history:
+                        Intent intentHistory = new Intent(NewsActivity.this, HistoryActivity.class);
+                        startActivity(intentHistory);
                         return true;
                     case R.id.option_setting:
                         Intent intentSetting = new Intent(NewsActivity.this, SettingActivity.class);
