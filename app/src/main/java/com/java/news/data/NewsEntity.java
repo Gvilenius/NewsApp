@@ -7,11 +7,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import io.realm.RealmList;
+import io.realm.RealmModel;
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.RealmClass;
 
-public class NewsEntity extends RealmObject{
+@RealmClass
+public class NewsEntity implements RealmModel, News {
 
         @PrimaryKey
         private String newsID;
@@ -28,7 +31,7 @@ public class NewsEntity extends RealmObject{
 
         public RealmList<String> getImgUrls(){
             if (imgUrls == null) {
-                String pattern =  "http.*\\.((jpe?g)|(png))";
+                String pattern =  "http.*\\.((j[pe]{1,2}g)|(png))";
                 Pattern p = Pattern.compile(pattern);
                 Matcher m = p.matcher(image);
                 RealmList<String> urls = new RealmList<>();
@@ -91,38 +94,15 @@ public class NewsEntity extends RealmObject{
         public void setImgUrls(RealmList<String> imgUrls) {
             this.imgUrls = imgUrls;
         }
-    //    private String crawlTime;
-    //    public String getCrawlTime() {
-    //        return crawlTime;
-    //    }
-    //    private List<keyword> keywords;
-    //    private List<keyword> when;
-    //    private List<person> persons;
-    //    private List<person> organizations;
-    //    private List<location> locations;
-    //    private List<keyword> where;
-    //    private List<keyword> who;
-    //
-    //    private static class location{
-    //        private float lng;
-    //        private int count;
-    //        private String linkedURL;
-    //        private float lat;
-    //        private String mention;
-    //    }
-    //    private static class person{
-    //        private int count;
-    //        private String linkedURL;
-    //        private String mention;
-    //    }
-    //    private static class keyword{
-    //        private String word;
-    //        private String score;
-    //    }
 
-        //    private String language;
-    //    public String getLanguage() {
-    //        return language;
-    //    }
+        private RealmList<Keyword> keywords;
+
+        public RealmList<Keyword> getKeywords() {
+            return keywords;
+        }
+
+        public void setKeywords(RealmList<Keyword> keywords) {
+            this.keywords = keywords;
+        }
 
 }

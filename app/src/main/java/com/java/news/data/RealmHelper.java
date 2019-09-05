@@ -14,11 +14,18 @@ public class RealmHelper {
     private static final String DB_NAME = "myRealm.realm";
     private Realm mRealm;
     private static RealmHelper instance;
-
+    private NewsRecSystem mRec;
     public RealmHelper() {
         mRealm = Realm.getDefaultInstance();
+        mRec = NewsRecSystem.getInstance();
     }
 
+    public List<NewsEntity> getNewsByRecommend(){
+        List<NewsEntity> source = mRealm.where(NewsEntity.class).findAll();
+        List<NewsHisEntity> his = mRealm.where(NewsHisEntity.class).findAll();
+        List<NewsFavorEntity> favor = mRealm.where(NewsFavorEntity.class).findAll();
+        return mRec.recommendSort(source, his, favor);
+    }
     public static RealmHelper getInstance(){
         if (instance == null){
             synchronized (RealmHelper.class){
@@ -26,6 +33,10 @@ public class RealmHelper {
             }
         }
         return instance;
+    }
+
+    public RealmResults<NewsEntity> getNewsByKeyword(final String keyword){
+        return mRealm.where(NewsEntity.class).like("content", keyword).findAll();
     }
 
     public NewsEntity getNewsByID(String newsID){
@@ -43,8 +54,17 @@ public class RealmHelper {
                     }
                 });
     }
+    public void deleteAllNews(){
+        mRealm.executeTransaction(new Realm.Transaction(){
+            @Override
+            public void execute(Realm realm){
+                mRealm.where(NewsEntity.class).findAll().deleteAllFromRealm();
+            }
+        });
+    }
 
-    public void insertFavorate(final NewsEntity news){
+
+    public void insertFavor(final NewsFavorEntity news){
         mRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -53,12 +73,13 @@ public class RealmHelper {
         });
     }
 
-    public void deleteFavorate(final String newsID){
+
+    public void deleteFavor(final String newsID){
 
         RealmAsyncTask realmAsyncTask = mRealm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                RealmResults<NewsEntity> news = realm.where(NewsEntity.class).findAll();
+                RealmResults<NewsFavorEntity> news = realm.where(NewsFavorEntity.class).findAll();
                 news.deleteFirstFromRealm();
             }
         }, new Realm.Transaction.OnSuccess() {
@@ -74,17 +95,51 @@ public class RealmHelper {
         });
     }
 
-    public void insertReadHis(){
+
+    public void insertNewsHis(final NewsHisEntity newsHis){
+        mRealm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.copyToRealmOrUpdate(newsHis);
+            }
+        });
+    }
+
+    public void deleteNewsHis(){
 
     }
 
-    public void insertSearchHis(){
-
+    public void deleteAllNewsHis(){
+        mRealm.executeTransaction(new Realm.Transaction(){
+            @Override
+            public void execute(Realm realm){
+                mRealm.where(NewsHisEntity.class).findAll().deleteAllFromRealm();
+            }
+        });
     }
+
+    public void insertSearchHis(final SearchHisEntity searchHis){
+        mRealm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.copyToRealmOrUpdate(searchHis);
+            }
+        });
+    }
+
+
 
     public void deleteAllSearchHis(){
-
+        mRealm.executeTransaction(new Realm.Transaction(){
+            @Override
+            public void execute(Realm realm){
+                mRealm.where(SearchHisEntity.class).findAll().deleteAllFromRealm();
+            }
+        });
     }
 
+    public void deleteSearchHis(){
+
+    }
 
 }
