@@ -275,27 +275,38 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
     }
 
     private void initLoadMoreListener() {
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             int lastVisibleItem ;
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+
                 //判断RecyclerView的状态 是空闲时，同时，是最后一个可见的ITEM时才加载
                 if(newState==RecyclerView.SCROLL_STATE_IDLE&&lastVisibleItem+1==mRefreshAdapter.getItemCount()){
+
+                    //设置正在加载更多
+                    mRefreshAdapter.changeMoreStatus(mRefreshAdapter.LOADING_MORE);
+
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
+
                             mPresenter.refresh();
-                            Toast.makeText(NewsActivity.this, "loading", Toast.LENGTH_SHORT).show();
+                            //设置回到上拉加载更多
+                            mRefreshAdapter.changeMoreStatus(mRefreshAdapter.PULLUP_LOAD_MORE);
 //                            Toast.makeText(NewsActivity.this, "更新了 "+footerDatas.size()+" 条目数据", Toast.LENGTH_SHORT).show();
                         }
                     }, 1000);
+
+
                 }
+
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+
                 LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
                 //最后一个可见的ITEM
                 lastVisibleItem=layoutManager.findLastVisibleItemPosition();
@@ -315,11 +326,11 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
             if(!o.getImgUrls().isEmpty())
                 mURLs.add(o.getImgUrls().first());
             else
-                mURLs.add("");
+                mURLs.add("null");
             mIDs.add(o.getNewsID());
 //            System.out.println(o.getImgUrls().size());
         }
-        mRefreshAdapter.RefreshTheView();
+        mRefreshAdapter.changeMoreStatus(mRefreshAdapter.PULLUP_LOAD_MORE);
 
     }
 
