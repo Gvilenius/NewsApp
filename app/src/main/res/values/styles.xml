@@ -15,4 +15,9 @@
         <item name="android:windowExitAnimation">@anim/out</item>
         <!-- 指定消失的动画xml --></style>
 
+    <style name="menu_labels_style">
+        <item name="android:background">@drawable/fab_label_background</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
 </resources>
