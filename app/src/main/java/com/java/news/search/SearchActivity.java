@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.java.news.R;
 import com.java.news.data.NewsEntity;
 import com.java.news.myitems.MyData;
+import com.java.news.myitems.NightMode;
 import com.java.news.myitems.RefreshAdapter;
 import com.java.news.news.newsList.NewsListContract;
 
@@ -30,6 +32,7 @@ public class SearchActivity extends AppCompatActivity implements NewsListContrac
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AppCompatDelegate.setDefaultNightMode(NightMode.getDeleg());
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_search);

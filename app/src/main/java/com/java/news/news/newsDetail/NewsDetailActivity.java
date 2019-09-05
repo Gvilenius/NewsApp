@@ -7,10 +7,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.bumptech.glide.Glide;
 import com.java.news.R;
 import com.java.news.data.NewsEntity;
+import com.java.news.myitems.NightMode;
 
 import cn.jzvd.Jzvd;
 import cn.jzvd.JzvdStd;
@@ -31,6 +33,7 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsDetailC
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AppCompatDelegate.setDefaultNightMode(NightMode.getDeleg());
         super.onCreate(savedInstanceState);
 
         getSupportActionBar().hide();

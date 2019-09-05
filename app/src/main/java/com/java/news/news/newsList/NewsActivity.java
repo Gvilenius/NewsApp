@@ -11,12 +11,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.java.news.R;
 import com.java.news.favorites.FavorActivity;
 import com.java.news.history.HistoryActivity;
 import com.java.news.myitems.ClassAdapter;
+import com.java.news.myitems.NightMode;
 import com.java.news.myitems.TouTiaoTwoActivity;
 import com.java.news.search.SearchActivity;
 import com.java.news.settings.SettingActivity;
@@ -31,7 +33,7 @@ import butterknife.ButterKnife;
 
 
 
-public class NewsActivity extends AppCompatActivity implements MyListener, View.OnClickListener, IOnSearchClickListener {
+public class NewsActivity extends AppCompatActivity implements MyListener,MyListener2, View.OnClickListener, IOnSearchClickListener {
     private NewsFragment mNewsFragment;
 
     // 分类栏信息
@@ -54,11 +56,13 @@ public class NewsActivity extends AppCompatActivity implements MyListener, View.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AppCompatDelegate.setDefaultNightMode(NightMode.getDeleg());
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_news);
         ButterKnife.bind(this);
 
+        NightMode.newsLis=this;
         //开始
         mNewsFragment = NewsFragment.newInstance(classesMy);
         mNewsFragment.setmLis(this);
@@ -174,6 +178,13 @@ public class NewsActivity extends AppCompatActivity implements MyListener, View.
         Intent intent=new Intent(NewsActivity.this, SearchActivity.class);
         intent.putExtra("keyword",keyword);
         startActivity(intent);
+    }
+
+    @Override
+    public void changeMode() {
+        startActivity(new Intent(NewsActivity.this,NewsActivity.class));
+//                overridePendingTransition(R.anim.animo_alph_close, R.anim.animo_alph_close);
+        finish();
     }
 }
 

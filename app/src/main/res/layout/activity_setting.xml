@@ -24,6 +24,7 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:text="设置"
+                android:textColor="@color/TitleText"
                 android:textSize="24sp" />
 
         </LinearLayout>
@@ -44,7 +45,7 @@
                     android:id="@+id/switch1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="夜间模式" />
+                    android:text="夜间模式"/>
 
                 <Switch
                     android:id="@+id/switch2"

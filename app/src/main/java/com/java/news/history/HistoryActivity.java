@@ -7,12 +7,14 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.java.news.R;
 import com.java.news.data.NewsEntity;
 import com.java.news.favorites.FavorContract;
 import com.java.news.myitems.FavoriteAdapter;
 import com.java.news.myitems.MyData;
+import com.java.news.myitems.NightMode;
 import com.java.news.news.newsDetail.NewsDetailActivity;
 
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ public class HistoryActivity extends AppCompatActivity implements FavorContract.
     List<MyData> mDatas;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AppCompatDelegate.setDefaultNightMode(NightMode.getDeleg());
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_favorite);

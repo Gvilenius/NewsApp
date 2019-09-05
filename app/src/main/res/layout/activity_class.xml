@@ -25,6 +25,7 @@
                 android:layout_marginStart="10dp"
                 android:gravity="center_vertical"
                 android:text="新闻分类"
+                android:textColor="@color/TitleText"
                 android:textSize="20sp" />
 
         </LinearLayout>
