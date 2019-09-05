@@ -84,6 +84,8 @@ public class NewsListPresenter implements NewsListContract.Presenter {
             public void onComplete() {
                 mCurrentPage = 1;
                 System.out.println("刷新完成");
+                System.out.println(RealmHelper.getInstance().getAllNews().size());
+
             }
         });
         init = 1;

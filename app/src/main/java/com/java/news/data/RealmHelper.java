@@ -114,6 +114,10 @@ public class RealmHelper {
         return newsList;
     }
 
+    public List<NewsEntity> getAllNews(){
+        return mRealm.where(NewsEntity.class).findAll();
+    }
+
     public List<NewsEntity> getFavorNews(){
         return mRealm.where(NewsEntity.class).equalTo("isFavor", true).findAll();
     }

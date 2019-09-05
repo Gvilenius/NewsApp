@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.java.news.R;
+import com.java.news.data.RealmHelper;
 import com.java.news.favorites.FavorActivity;
 import com.java.news.history.HistoryActivity;
 import com.java.news.myitems.ClassAdapter;
@@ -151,6 +152,7 @@ public class NewsActivity extends AppCompatActivity implements MyListener,MyList
     }
     @Override
     public void onClick(View v) {
+
         Intent intent;
         switch (v.getId()){
             case R.id.action_a:

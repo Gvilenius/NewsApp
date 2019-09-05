@@ -24,7 +24,7 @@ public class NewsRecSystem {
         return mInstance;
     }
 
-    private final double wRead = 1.0, wFavor = 20.0, wCata = 300.0;
+    private final double wRead = 1, wFavor = 5.0, wCata = 10.0;
 
     /*
      * 文本向量
@@ -35,12 +35,12 @@ public class NewsRecSystem {
             vec = new HashMap<>();
         }
 
-        public<T extends News> Vector(T news){
+        public  Vector(NewsEntity news){
             this();
             add(news, 1, wCata);
         }
 
-        public<T extends News> void add(T news, double w, double wCata){
+        public void add(NewsEntity news, double w, double wCata){
             for (Keyword keyword: news.getKeywords()){
                 if (! vec.containsKey(keyword.word))
                     vec.put(keyword.word, 0.0);
@@ -84,11 +84,13 @@ public class NewsRecSystem {
             User.add(data, wFavor, wCata);
 
         double userNorm2 = User.norm2();
-        List<Pair<Double,NewsEntity>> sortList = new ArrayList<>();
 
+
+        List<Pair<Double,NewsEntity>> sortList = new ArrayList<>();
         for(NewsEntity news : source) {
             Vector newsVec = new Vector(news);
             double newsNorm2 = newsVec.norm2();
+            if (newsNorm2 == 0) continue;;
             double dist = cosineSimilarity(User, newsVec,  userNorm2, newsNorm2 );
             sortList.add(new Pair<Double,NewsEntity>(dist,news));
         }
@@ -99,7 +101,7 @@ public class NewsRecSystem {
             }
         });
 
-        for(Pair<Double,NewsEntity> p : sortList)
+        for (Pair<Double, NewsEntity> p : sortList)
             result.add(p.second);
 
         return result;
