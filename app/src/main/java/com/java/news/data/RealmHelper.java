@@ -4,10 +4,16 @@ package com.java.news.data;
  */
 
 
+import android.content.Context;
+
+import com.facebook.stetho.Stetho;
+import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 
 public class RealmHelper {
@@ -15,6 +21,34 @@ public class RealmHelper {
     private Realm mRealm;
     private static RealmHelper instance;
     private NewsRecSystem mRec;
+    public static void init(Context context){
+        Realm.init(context);
+        RealmConfiguration config = new  RealmConfiguration.Builder()
+                .name("myRealm.realm")
+                .deleteRealmIfMigrationNeeded()
+                .build();
+        Realm.setDefaultConfiguration(config);
+
+
+        Stetho.initialize(
+                Stetho.newInitializerBuilder(context)
+                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(context))
+                        .enableWebKitInspector(RealmInspectorModulesProvider
+                                .builder(context)
+                                .withDeleteIfMigrationNeeded(true)
+                                .build())
+                        .build());
+
+        Realm.getDefaultInstance().executeTransaction(new Realm.Transaction(){
+            @Override
+            public void execute(Realm realm) {
+                realm.deleteAll();
+            }
+        });
+
+
+    }
+
     public RealmHelper() {
         mRealm = Realm.getDefaultInstance();
         mRec = NewsRecSystem.getInstance();
