@@ -4,6 +4,7 @@ package com.java.news.data;
  */
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
@@ -58,10 +59,18 @@ public class RealmHelper {
     }
 
     public List<NewsEntity> getNewsListByPage(int pageIndex, int pageSize){
-        return mRealm.where(NewsEntity.class)
-                .greaterThanOrEqualTo("index", pageSize*pageIndex + 0)
-                .lessThan("index", pageSize*pageIndex + pageSize).sort("index", Sort.ASCENDING)
+        int start = pageSize*pageIndex,
+                end = pageSize*pageIndex + pageSize;
+        List<NewsEntity> newsList = new ArrayList<>();
+        List<NewsEntity> query =  mRealm.where(NewsEntity.class)
+                .sort("publishTime")
                 .findAll();
+        for (int i = start; i < end; ++i){
+            if (i >= query.size()) break;
+            newsList.add(query.get(i));
+            System.out.println(newsList.get(i-start).getTitle());
+        }
+        return newsList;
     }
 
     public void deleteAllNews(){

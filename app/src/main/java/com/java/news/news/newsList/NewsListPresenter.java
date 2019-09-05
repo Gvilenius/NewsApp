@@ -58,15 +58,18 @@ public class NewsListPresenter implements NewsListContract.Presenter {
             @Override
             public void onError(Throwable e) {
                 System.out.println("Error");
+                mCurrentPage = 0;
+                loadMore();
             }
 
             @Override
             public void onComplete() {
+                mCurrentPage = 0;
+                loadMore();
                 System.out.println("刷新完成");
             }
         });
-        mCurrentPage = 0;
-        loadMore();
+
     }
 
     @Override
