@@ -42,6 +42,10 @@ public class NewsListPresenter implements NewsListContract.Presenter {
     @SuppressLint("CheckResult")
     @Override
     public void refresh() {
+        if (mCategory == "推荐"){
+            mNewsListView.setNewsList(dbHelper.getNewsByRecommend());
+            return;
+        }
         RetrofitManager.getInstance().fetchNewsList(PAGE_SIZE, mKeyword, mCategory)
         .subscribe(new Observer<NewsResponse>(){
             private Disposable disposable;

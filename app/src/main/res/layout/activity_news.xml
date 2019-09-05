@@ -92,20 +92,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".news.newsList.NewsActivity">
-
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/swipeRefreshLayout"
+            <FrameLayout
+                android:id="@+id/fragment_content"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/news_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:cacheColorHint="@null"
-                    android:scrollbars="vertical" />
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                android:layout_height="match_parent">
+            </FrameLayout>
         </RelativeLayout>
     </LinearLayout>
 
