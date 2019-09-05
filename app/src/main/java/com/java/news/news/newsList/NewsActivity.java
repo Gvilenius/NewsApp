@@ -29,7 +29,7 @@ import java.util.List;
 
 public class NewsActivity extends AppCompatActivity implements NewsListContract.View{
     private NewsListContract.Presenter mPresenter;
-    private NewsFragment mFOne;
+    private NewsListFragment mFOne;
     Fragment a;
 
     // 分类栏信息
@@ -51,7 +51,7 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
         setContentView(R.layout.activity_news);
 
         //开始
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_content, new AllNewsFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_content, new NewsFragment()).commit();
 
         // 新闻分类选项栏
         classView = findViewById(R.id.class_view);
