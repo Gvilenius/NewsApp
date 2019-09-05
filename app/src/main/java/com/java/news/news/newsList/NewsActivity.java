@@ -13,10 +13,9 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import com.java.news.R;
-import com.java.news.data.NewsEntity;
 import com.java.news.favorites.FavorActivity;
 import com.java.news.history.HistoryActivity;
 import com.java.news.myitems.ClassAdapter;
@@ -25,12 +24,12 @@ import com.java.news.settings.SettingActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
-public class NewsActivity extends AppCompatActivity implements NewsListContract.View{
+public class NewsActivity extends AppCompatActivity implements MyListener{
     private NewsListContract.Presenter mPresenter;
     private NewsListFragment mFOne;
-    Fragment a;
+    private NewsFragment mNewsFragment;
+    private ViewPager mViewPager;
 
     // 分类栏信息
     GridView classView;
@@ -51,7 +50,9 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
         setContentView(R.layout.activity_news);
 
         //开始
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_content, new NewsFragment()).commit();
+        mNewsFragment = NewsFragment.newInstance(classesMy);
+        mNewsFragment.setmLis(this);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_content, mNewsFragment).commit();
 
         // 新闻分类选项栏
         classView = findViewById(R.id.class_view);
@@ -133,6 +134,7 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
     {
         classAdapter.setPosition(position);
         savePosition=position;
+        mNewsFragment.setPage(position);
     }
 
     public void classChoosePage(View view)
@@ -151,6 +153,7 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
                     if(intent!=null){
                         int pos= intent.getIntExtra("choosePosition",0);
                         scrollToPosition(pos);
+                        mNewsFragment.resetPage(pos);
                         classChoose(pos);
                     }
                 }
@@ -160,25 +163,14 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
 
     void scrollToPosition(int position)
     {
-        scrollView.scrollTo(position*itemWidth,0);
+        scrollView.scrollTo((position-2) *itemWidth,0);
     }
 
 
     @Override
-    public void setNewsList(List<NewsEntity> newsList) {
-
+    public void changeScroll(int pos) {
+        scrollToPosition(pos);
+        classChoose(pos);
     }
-
-    @Override
-    public void appendNewsList(List<NewsEntity> newsList) {
-
-    }
-
-    @Override
-    public void onError() {
-
-    }
-
-
 }
 

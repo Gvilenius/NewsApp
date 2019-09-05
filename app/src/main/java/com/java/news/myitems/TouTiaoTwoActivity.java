@@ -3,6 +3,7 @@ package com.java.news.myitems;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -63,7 +64,7 @@ public class TouTiaoTwoActivity extends AppCompatActivity {
                     //我的频道右上角图标显示
                     mTouTiaoTwoMyAdapter.showDeleteIcon(true);
                     // 开启拖拽
-                    //mTouTiaoOneAdapter.enableDragItem(itemTouchHelper);
+//                    mTouTiaoOneAdapter.enableDragItem(itemTouchHelper);
                 }
                 isEdit = !isEdit;
             }
@@ -109,6 +110,7 @@ public class TouTiaoTwoActivity extends AppCompatActivity {
                 if (isEdit){
                     //点击移除,前两个除外
                     if (pos>0){
+                        System.out.println(pos);
                         if(mDataOne.size()<=pos)
                             return;
                         //加入频道推荐,//将其移动到第一个位置
@@ -158,11 +160,23 @@ public class TouTiaoTwoActivity extends AppCompatActivity {
 
         //自定义类实现拖拽,侧滑删除
         MyItemTouchHandler myItemTouchHandler = new MyItemTouchHandler(mTouTiaoTwoMyAdapter);
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new MyItemTouchHandler(mTouTiaoTwoMyAdapter));
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(myItemTouchHandler);
         itemTouchHelper.attachToRecyclerView(rvtoutioaonemy);
 
         rvtoutioaonemy.setAdapter(mTouTiaoTwoMyAdapter);
         //设置添加,移除动画
         rvtoutioaonemy.setItemAnimator(new DefaultItemAnimator());
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK) {
+            // 监控返回键
+            Intent intent = new Intent(TouTiaoTwoActivity.this, NewsActivity.class);
+            intent.putExtra("choosePosition", 0);
+            setResult(RESULT_OK, intent);
+            finish();
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

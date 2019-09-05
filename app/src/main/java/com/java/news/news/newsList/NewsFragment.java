@@ -17,8 +17,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NewsFragment extends Fragment {
-//    private TabLayout mTablayout;
     private ViewPager mViewPager;
+    private ArrayList<String> classesMy;
+    private MyListener mLis;
+    public void setmLis(MyListener lis){
+        mLis=lis;
+    }
+
+    public static NewsFragment newInstance(ArrayList<String> type) {
+        Bundle args = new Bundle();
+        NewsFragment fragment = new NewsFragment();
+        args.putStringArrayList("category_list", type);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        classesMy = getArguments().getStringArrayList("category_list");
+    }
 
     @Nullable
     @Override
@@ -27,22 +45,28 @@ public class NewsFragment extends Fragment {
         mViewPager = (ViewPager) view.findViewById(R.id.viewPager);
         mViewPager.setOffscreenPageLimit(3);
         setupViewPager(mViewPager);
-//        mTablayout.addTab(mTablayout.newTab().setText(R.string.top));
-//        mTablayout.addTab(mTablayout.newTab().setText(R.string.nba));
-//        mTablayout.addTab(mTablayout.newTab().setText(R.string.cars));
-//        mTablayout.addTab(mTablayout.newTab().setText(R.string.jokes));
-//        mTablayout.setupWithViewPager(mViewPager);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+            @Override
+            public void onPageSelected(int position) {
+                mLis.changeScroll(position);
+            }
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
         return view;
     }
 
     private void setupViewPager(ViewPager mViewPager) {
         //Fragment中嵌套使用Fragment一定要使用getChildFragmentManager(),否则会有问题
         MyPagerAdapter adapter = new MyPagerAdapter(getChildFragmentManager());
-        System.out.println("start");
-        adapter.addFragment(NewsListFragment.newInstance("推荐"), getString("推荐"));
-        adapter.addFragment(NewsListFragment.newInstance("财经"), getString("财经"));
-        adapter.addFragment(NewsListFragment.newInstance("娱乐"), getString("娱乐"));
-        adapter.addFragment(NewsListFragment.newInstance("体育"), getString("体育"));
+        for(String s:classesMy)
+        {
+            adapter.addFragment(NewsListFragment.newInstance(s));
+        }
         mViewPager.setAdapter(adapter);
     }
 
@@ -51,32 +75,43 @@ public class NewsFragment extends Fragment {
     }
 
     public static class MyPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragments = new ArrayList<>();
-        private final List<String> mFragmentTitles = new ArrayList<>();
+        private List<Fragment> mFragments = new ArrayList<>();
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
         }
-
-        public void addFragment(Fragment fragment, String title) {
+        public void addFragment(Fragment fragment) {
             mFragments.add(fragment);
-            System.out.println("adding");
-            mFragmentTitles.add(title);
         }
-
+        public void removeAllFragment() {
+            mFragments.clear();
+        }
         @Override
         public Fragment getItem(int position) {
             return mFragments.get(position);
         }
-
         @Override
         public int getCount() {
             return mFragments.size();
         }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitles.get(position);
+    }
+    public void resetPage(int pos)
+    {
+        MyPagerAdapter adapter = (MyPagerAdapter) getmViewPager().getAdapter();
+        adapter.removeAllFragment();
+        for(String s:classesMy)
+        {
+            adapter.addFragment(NewsListFragment.newInstance(s));
         }
+        adapter.notifyDataSetChanged();
+        setPage(pos);
+    }
+    public void setPage(int pos)
+    {
+        getmViewPager().setCurrentItem(pos);
+    }
+
+    public ViewPager getmViewPager() {
+        return mViewPager;
     }
 }

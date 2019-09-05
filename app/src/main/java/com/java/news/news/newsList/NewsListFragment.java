@@ -30,14 +30,13 @@ public class NewsListFragment extends Fragment implements NewsListContract.View{
     private RefreshAdapter mRefreshAdapter;
     private LinearLayoutManager mLinearLayoutManager;
 
-    String mType;
+    public String mType;
     NewsListPresenter mNewsPresenter;
 
     public static Fragment newInstance(String type) {
         Bundle args = new Bundle();
         NewsListFragment fragment = new NewsListFragment();
         args.putString("category", type);
-        System.out.println(type);System.out.println(type);System.out.println(type);System.out.println(type);System.out.println(type);
         fragment.setArguments(args);
         return fragment;
     }
@@ -45,9 +44,7 @@ public class NewsListFragment extends Fragment implements NewsListContract.View{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        System.out.println(getArguments());
         mType = getArguments().getString("category");
-        System.out.println(mType);
         mNewsPresenter = new NewsListPresenter(this,mType,"");
     }
 

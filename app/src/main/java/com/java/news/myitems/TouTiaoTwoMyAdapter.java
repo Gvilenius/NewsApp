@@ -41,7 +41,8 @@ public class TouTiaoTwoMyAdapter extends MyItemTouchHandler.ItemTouchAdapterImpl
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
-
+        String temp=mData.remove(fromPosition);
+        mData.add(toPosition,temp);
     }
 
     /**禁止自动拖拽
@@ -64,7 +65,8 @@ public class TouTiaoTwoMyAdapter extends MyItemTouchHandler.ItemTouchAdapterImpl
 
     @Override
     public void onItemRemove(int position) {
-
+        mData.remove(position);
+        notifyDataSetChanged();
     }
 
     @NonNull

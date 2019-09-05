@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:text="编辑"
             android:textColor="@android:color/holo_red_light"
+            android:paddingEnd="20dp"
             android:layout_alignParentRight="true"/>
     </RelativeLayout>
 
@@ -33,6 +34,7 @@
         android:id="@+id/rv_toutioa_one_my"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="20dp"
         android:overScrollMode="never"/>
 
     <RelativeLayout
@@ -57,6 +59,7 @@
         android:id="@+id/rv_toutioa_one_add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="20dp"
         android:overScrollMode="never"/>
 
 

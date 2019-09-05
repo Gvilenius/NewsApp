@@ -29,4 +29,5 @@ public interface NewsListContract {
 
         void switch2NewsDetail(NewsEntity news);
     }
+
 }

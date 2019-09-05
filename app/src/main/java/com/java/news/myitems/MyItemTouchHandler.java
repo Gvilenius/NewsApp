@@ -50,7 +50,7 @@ public class MyItemTouchHandler extends ItemTouchHelper.Callback {
             /**
              *    修改可以拖动的条件
              */
-            if (fromPosition < 2 || toPosition < 2){
+            if (fromPosition < 1 || toPosition < 1){
                 return false;
             }
             if (fromPosition < toPosition) {
