@@ -1,5 +1,6 @@
 package com.java.news.myitems;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.java.news.R;
+import com.java.news.news.newsList.NewsActivity;
 
 import java.util.ArrayList;
 
@@ -70,20 +72,7 @@ public class TouTiaoTwoActivity extends AppCompatActivity {
     }
     private void initTwoList() {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4);
-        mDataTwo = new ArrayList<>();
-        mDataTwo.add("本地");
-        mDataTwo.add("房产");
-        mDataTwo.add("直播");
-        mDataTwo.add("时尚");
-        mDataTwo.add("小说");
-        mDataTwo.add("历史");
-        mDataTwo.add("育儿");
-        mDataTwo.add("搞笑");
-        mDataTwo.add("美食");
-        mDataTwo.add("养生");
-        mDataTwo.add("电影");
-        mDataTwo.add("手机");
-        mDataTwo.add("旅游");
+        mDataTwo = NewsActivity.classesAdd;
         rvtoutioaoneadd.setLayoutManager(gridLayoutManager);
 
         mTouTiaoTwoAdapter = new TouTiaoTwoAdapter(R.layout.item_toutiao_two, mDataTwo);
@@ -109,21 +98,7 @@ public class TouTiaoTwoActivity extends AppCompatActivity {
     }
     private void initOneList() {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4);
-        mDataOne = new ArrayList<>();
-        mDataOne.add("关注");
-        mDataOne.add("推荐");
-        mDataOne.add("热点");
-        mDataOne.add("世界杯");
-        mDataOne.add("军事");
-        mDataOne.add("国际");
-        mDataOne.add("问答");
-        mDataOne.add("视频");
-        mDataOne.add("图片");
-        mDataOne.add("娱乐");
-        mDataOne.add("科技");
-        mDataOne.add("国风");
-        mDataOne.add("地理");
-        mDataOne.add("地球仪");
+        mDataOne = NewsActivity.classesMy;
         rvtoutioaonemy.setLayoutManager(gridLayoutManager);
 
         mTouTiaoTwoMyAdapter = new TouTiaoTwoMyAdapter(this, mDataOne, new TouTiaoTwoMyAdapter.AdapterCallBack() {
@@ -133,7 +108,9 @@ public class TouTiaoTwoActivity extends AppCompatActivity {
                 //处于编辑状态
                 if (isEdit){
                     //点击移除,前两个除外
-                    if (pos>1){
+                    if (pos>0){
+                        if(mDataOne.size()<=pos)
+                            return;
                         //加入频道推荐,//将其移动到第一个位置
                         String title = mDataOne.get(pos);
                         //Log.e(TAG, "onItem--my--Click: "+position+"||"+title );
@@ -148,6 +125,10 @@ public class TouTiaoTwoActivity extends AppCompatActivity {
                         //mTouTiaoOneAdapter.notifyDataSetChanged();
                     }
                 }else {
+                    Intent intent = new Intent(TouTiaoTwoActivity.this, NewsActivity.class);
+                    intent.putExtra("choosePosition", pos);
+                    setResult(RESULT_OK, intent);
+                    finish();
                     //点击进入对应详情页
 //                    String title = mDataOne.get(pos);
 //                    Intent intent = new Intent(TouTiaoTwoActivity.this, TouTiaoDetailActivity.class);
@@ -161,7 +142,7 @@ public class TouTiaoTwoActivity extends AppCompatActivity {
                 if (isEdit){
                     return false;
                 }
-                if (pos > 1){
+                if (pos > 0){
                     //长按处于编辑状态
                     isEdit=true;
                     //点击变成编辑状态

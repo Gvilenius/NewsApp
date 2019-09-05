@@ -22,7 +22,7 @@ public class RefreshAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private Context mContext;
     private LayoutInflater mInflater;
-    private List<String> mTitles, mURLs, mIDs;
+    private List<MyData> mDatas;
 
     private static final int TYPE_ITEM   = 0;
     private static final int TYPE_FOOTER = 1;
@@ -35,12 +35,10 @@ public class RefreshAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     //上拉加载更多状态-默认为0
     private int mLoadMoreStatus = LOADING_MORE;
 
-    public RefreshAdapter(Context context, List<String> titles, List<String> urls, List<String> ids) {
+    public RefreshAdapter(Context context, List<MyData> datas) {
         mContext = context;
         mInflater = LayoutInflater.from(context);
-        mTitles = titles;
-        mURLs = urls;
-        mIDs = ids;
+        mDatas = datas;
     }
 
     @Override
@@ -59,10 +57,11 @@ public class RefreshAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if(holder instanceof ItemViewHolder){
             ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
-            String str = mTitles.get(position);
+            String str = mDatas.get(position).mTitle;
             itemViewHolder.mTvContent.setText(str);
-            itemViewHolder.mId=mIDs.get(position);
-            String theUrl=mURLs.get(position);
+            itemViewHolder.mId=mDatas.get(position).mID;
+            String theUrl=mDatas.get(position).mURL;
+            itemViewHolder.index=position;
 //            System.out.println(str);
             if(theUrl.equals("null"))
                 itemViewHolder.mImage.setVisibility(View.GONE);
@@ -72,6 +71,7 @@ public class RefreshAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 Glide.with(mContext).load(theUrl).placeholder( R.drawable.heart ).error( R.drawable.heart ).dontAnimate().into(itemViewHolder.mImage);
 //                System.out.println(theUrl);
             }
+
         }else if (holder instanceof FooterViewHolder) {
             FooterViewHolder footerViewHolder = (FooterViewHolder) holder;
             switch (mLoadMoreStatus) {
@@ -94,7 +94,7 @@ public class RefreshAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemCount() {
-        return mTitles.size()+1;
+        return mDatas.size()+1;
     }
 
     @Override
@@ -111,20 +111,22 @@ public class RefreshAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         TextView mTvContent;
         ImageView mImage;
         String mId;
+        int index;
         public ItemViewHolder(View itemView) {
             super(itemView);
             mTvContent = itemView.findViewById(R.id.news_name);
             mImage=itemView.findViewById(R.id.news_image);
             initListener(itemView);
         }
-
         private void initListener(View itemView) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    mDatas.get(index).hasSeen=true;
                     Intent intent = new Intent(mContext, NewsDetailActivity.class);
                     String message = mId;
                     intent.putExtra("NewsID", message);
+                    intent.putExtra("isFavorite", mDatas.get(index).isFavorate);
                     mContext.startActivity(intent);
 //                    Toast.makeText(mContext, "info "+ mTvContent.getText(), Toast.LENGTH_SHORT).show();
                 }
@@ -153,13 +155,13 @@ public class RefreshAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         notifyDataSetChanged();
     }
 
-    public void AddHeaderItem(List<String> items){
-        mTitles.addAll(0,items);
+    public void AddHeaderItem(List<MyData> items){
+        mDatas.addAll(0,items);
         notifyDataSetChanged();
     }
 
-    public void AddFooterItem(List<String> items){
-        mTitles.addAll(items);
+    public void AddFooterItem(List<MyData> items){
+        mDatas.addAll(items);
         notifyDataSetChanged();
     }
     public void RefreshTheView(){

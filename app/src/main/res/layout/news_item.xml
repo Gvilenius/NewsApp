@@ -13,6 +13,7 @@
         android:paddingBottom="20dp"
         android:paddingTop="20dp"
         android:layout_weight="1"
+        android:textColor="@color/news_info"
         android:textSize="24sp" />
     <ImageView
         android:id="@+id/news_image"

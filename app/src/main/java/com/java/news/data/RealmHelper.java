@@ -8,9 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
-import io.realm.RealmAsyncTask;
 import io.realm.RealmResults;
-import io.realm.Sort;
 
 public class RealmHelper {
     private static final String DB_NAME = "myRealm.realm";

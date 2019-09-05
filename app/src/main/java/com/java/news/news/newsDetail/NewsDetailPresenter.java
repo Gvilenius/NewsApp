@@ -4,8 +4,6 @@ package com.java.news.news.newsDetail;
  */
 
 import com.java.news.data.NewsEntity;
-import com.java.news.data.NewsFavorEntity;
-import com.java.news.data.NewsHisEntity;
 import com.java.news.data.RealmHelper;
 
 import io.realm.Realm;
@@ -19,7 +17,12 @@ public class NewsDetailPresenter implements NewsDetailContract.Presenter {
     }
     @Override
     public void addHis(NewsEntity news) {
-
+        mRealm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                news.setRead(true);
+            }
+        });
 //        dbHelper.insertOrUpdateNews(news);
     }
 
@@ -57,5 +60,9 @@ public class NewsDetailPresenter implements NewsDetailContract.Presenter {
 //        dbHelper.insertOrUpdateNews(news);
     }
 
+    public NewsEntity getNews(String id)
+    {
+        return dbHelper.getNewsByID(id);
+    }
 
 }

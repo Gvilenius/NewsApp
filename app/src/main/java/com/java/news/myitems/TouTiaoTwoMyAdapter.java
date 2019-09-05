@@ -81,7 +81,7 @@ public class TouTiaoTwoMyAdapter extends MyItemTouchHandler.ItemTouchAdapterImpl
             ((ViewHolder) holder).tvTitle.setText(mData.get(position));
 
                 if (isDelete){
-                    if (position > 1) {
+                    if (position > 0) {
                         ((ViewHolder) holder).ivDelete.setVisibility(View.VISIBLE);
                     }
                 }else {

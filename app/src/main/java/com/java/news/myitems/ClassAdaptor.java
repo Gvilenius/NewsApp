@@ -1,34 +1,49 @@
 package com.java.news.myitems;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Color;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.SimpleAdapter;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.java.news.R;
 
-import java.util.List;
-import java.util.Map;
+import java.util.ArrayList;
 
-public class ClassAdaptor extends SimpleAdapter {
+public class ClassAdaptor extends BaseAdapter {
     int savePosition;
-    public ClassAdaptor(Context context, List<? extends Map<String, ?>> data, int resource, String[] from, int[] to) {
-        super(context, data, resource, from, to);
+    ArrayList<String> mDatas;
+    Context mContext;
+    public ClassAdaptor(Context context, ArrayList<String> data) {
+        super();
+        mContext=context;
+        mDatas=data;
         savePosition=0;
     }
-    @SuppressLint("ResourceAsColor")
+
+    @Override
+    public int getCount() {
+        return mDatas.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return mDatas.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
-        View v = super.getView(position, convertView, parent);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.class_item, null);
         TextView text=v.findViewById(R.id.class_text);
+        text.setText(mDatas.get(position));
         if(savePosition==position)
             text.setTextColor(Color.RED);
         else
@@ -39,5 +54,8 @@ public class ClassAdaptor extends SimpleAdapter {
     public void setPosition(int position){
         savePosition=position;
         notifyDataSetChanged();
+    }
+    public int getPosition(){
+        return savePosition;
     }
 }

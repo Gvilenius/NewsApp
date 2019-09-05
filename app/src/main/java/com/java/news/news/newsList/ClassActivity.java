@@ -1,17 +1,14 @@
 package com.java.news.news.newsList;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.java.news.R;
 
@@ -26,7 +23,7 @@ public class ClassActivity extends AppCompatActivity {
     GridView classView;
     SimpleAdapter classAdapter;
     List<Map<String, Object>> data_list;
-    String[] classes=NewsActivity.classes;
+    ArrayList<String> classes=NewsActivity.classesMy;
     TextView save;
 
     @Override
@@ -39,9 +36,9 @@ public class ClassActivity extends AppCompatActivity {
         classView = (GridView) findViewById(R.id.chooseClass_view);
         // 新建适配器
         data_list = new ArrayList<>();
-        for (int i = 0; i < classes.length; i++) {
+        for (int i = 0; i < classes.size(); i++) {
             Map<String, Object> map = new HashMap<>();
-            map.put("text", classes[i]);
+            map.put("text", classes.get(i));
             data_list.add(map);
         }
         String[] from = {"text"};

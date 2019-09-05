@@ -26,12 +26,13 @@ import com.java.news.data.NewsEntity;
 import com.java.news.favorites.FavorActivity;
 import com.java.news.myitems.ClassAdaptor;
 import com.java.news.myitems.CustomPopupWindow;
+import com.java.news.myitems.MyData;
 import com.java.news.myitems.RefreshAdapter;
 import com.java.news.myitems.TouTiaoTwoActivity;
 import com.java.news.settings.SettingActivity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -41,9 +42,7 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
     // 刷新栏信息
     RecyclerView mRecyclerView;
     SwipeRefreshLayout mSwipeRefreshLayout;
-    List<String> mTitles = new ArrayList<>();
-    List<String> mURLs = new ArrayList<>();
-    List<String> mIDs = new ArrayList<>();
+    List<MyData> mDatas = new ArrayList<>();
     private RefreshAdapter mRefreshAdapter;
     private LinearLayoutManager mLinearLayoutManager;
 //    SwipeRefreshLayout mSwipeRefreshWidget;
@@ -58,7 +57,8 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
     HorizontalScrollView scrollView;
     ClassAdaptor classAdapter;
     List<Map<String, Object>> data_list;
-    static public String[] classes = {"类别1", "类别2", "类别3", "类别4", "类别5", "类别6", "类别7", "类别8", "类别9", "类别10"};
+    static public ArrayList<String> classesMy = new ArrayList<>(Arrays.asList("推荐","财经","科技","社会","汽车","文化","教育","娱乐","军事","健康","体育"));
+    static public ArrayList<String> classesAdd =  new ArrayList<>();
     CustomPopupWindow mPop;
     GridView mPopGridView;
     int itemWidth;
@@ -97,17 +97,7 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
         // 新闻分类选项栏
         classView = findViewById(R.id.class_view);
         scrollView=findViewById(R.id.class_scroll);
-        // 新建适配器
-        data_list = new ArrayList<>();
-        for (int i = 0; i < classes.length; i++) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("text", classes[i]);
-            data_list.add(map);
-        }
-        String[] from = {"text"};
-        int[] to = {R.id.class_text};
-        classAdapter = new ClassAdaptor(this, data_list, R.layout.class_item, from, to);
-
+        classAdapter = new ClassAdaptor(this, classesMy);
         gridSetting();
         classView.setAdapter(classAdapter);
 
@@ -160,7 +150,7 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
     }
 
     void gridSetting() {
-        int size = classes.length;
+        int size = classesMy.size();
         int length = 60;
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -230,7 +220,23 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
     {
 //        mPop.showAtLocation(NewsActivity.this.findViewById(R.id.news_view), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
         Intent intent = new Intent(this, TouTiaoTwoActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent,1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        switch (requestCode) {
+            case 1:
+                if (resultCode == RESULT_OK) {
+                    if(intent!=null){
+                        int pos= intent.getIntExtra("choosePosition",0);
+                        scrollToPosition(pos);
+                        classChoose(pos);
+                    }
+                }
+                break;
+        }
     }
 
     void scrollToPosition(int position)
@@ -249,7 +255,7 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
     }
 
     private void initRecylerView() {
-        mRefreshAdapter = new RefreshAdapter(this,mTitles,mURLs,mIDs);
+        mRefreshAdapter = new RefreshAdapter(this,mDatas);
         mLinearLayoutManager = new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mRecyclerView.setAdapter(mRefreshAdapter);
@@ -318,17 +324,20 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
 
     @Override
     public void setNewsList(List<NewsEntity> newsList) {
-        mTitles.clear();
-        mURLs.clear();
+        mDatas.clear();
         for(NewsEntity o:newsList)
         {
+            MyData newData=new MyData();
 //            System.out.println(o.getTitle());
-            mTitles.add(o.getTitle());
+            newData.mTitle=o.getTitle();
             if(!o.getImgUrls().isEmpty())
-                mURLs.add(o.getImgUrls().first());
+                newData.mURL=o.getImgUrls().first();
             else
-                mURLs.add("null");
-            mIDs.add(o.getNewsID());
+                newData.mURL="null";
+            newData.mID=o.getNewsID();
+            newData.hasSeen=o.getRead();
+            newData.isFavorate=o.getFavor();
+            mDatas.add(newData);
 //            System.out.println(o.getImgUrls().size());
         }
         mRefreshAdapter.changeMoreStatus(mRefreshAdapter.PULLUP_LOAD_MORE);
@@ -338,13 +347,17 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
     public void appendNewsList(List<NewsEntity> newsList) {
         for(NewsEntity o:newsList)
         {
+            MyData newData=new MyData();
 //            System.out.println(o.getTitle());
-            mTitles.add(o.getTitle());
+            newData.mTitle=o.getTitle();
             if(!o.getImgUrls().isEmpty())
-                mURLs.add(o.getImgUrls().first());
+                newData.mURL=o.getImgUrls().first();
             else
-                mURLs.add("null");
-            mIDs.add(o.getNewsID());
+                newData.mURL="null";
+            newData.mID=o.getNewsID();
+            newData.hasSeen=o.getRead();
+            newData.isFavorate=o.getFavor();
+            mDatas.add(newData);
 //            System.out.println(o.getImgUrls().size());
         }
         if(newsList.size()>0)

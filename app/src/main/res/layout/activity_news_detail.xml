@@ -6,70 +6,110 @@
     android:layout_height="match_parent"
     tools:context=".news.newsDetail.NewsDetailActivity">
 
-    <ScrollView
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="vertical"
-            android:paddingBottom="50dp">
-
+            android:layout_height="50dp"
+            android:background="@color/search"
+            android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/news_detail_title"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:gravity="start|top"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="新闻"
+                android:layout_marginStart="20dp"
                 android:textSize="24sp" />
-            <TextView
-                android:id="@+id/news_detail_publisher"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:gravity="start|top"
-                android:textSize="12sp" />
-            <TextView
-                android:id="@+id/news_detail_time"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:gravity="start|top"
-                android:textSize="12sp" />
 
             <ImageView
-                android:id="@+id/news_detail_image1"
-                android:adjustViewBounds="true"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginTop="10dp" />
-
-            <TextView
-                android:id="@+id/news_detail_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="start|top"
-                android:textSize="18sp" />
-
+                android:id="@+id/fav_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="5dp"
+                app:srcCompat="@drawable/heart_fill"
+                android:onClick="favorateClick"/>
             <ImageView
-                android:id="@+id/news_detail_image2"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:adjustViewBounds="true"
-                android:layout_marginTop="10dp" />
+                android:id="@+id/notFav_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="5dp"
+                app:srcCompat="@drawable/heart_red"
+                android:onClick="favorateClick"/>
 
-
-            <cn.jzvd.JzvdStd
-                android:id="@+id/jz_video_player"
-                android:layout_width="match_parent"
-                android:layout_height="235dp"
-                android:layout_centerInParent="true" />
         </LinearLayout>
-    </ScrollView>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="vertical"
+                android:paddingBottom="50dp">
+
+
+                <TextView
+                    android:id="@+id/news_detail_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="start|top"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:id="@+id/news_detail_publisher"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="start|top"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/news_detail_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="start|top"
+                    android:textSize="12sp" />
+
+                <ImageView
+                    android:id="@+id/news_detail_image1"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="10dp"
+                    android:adjustViewBounds="true" />
+
+                <TextView
+                    android:id="@+id/news_detail_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="start|top"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/news_detail_image2"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="10dp"
+                    android:adjustViewBounds="true" />
+
+
+                <cn.jzvd.JzvdStd
+                    android:id="@+id/jz_video_player"
+                    android:layout_width="match_parent"
+                    android:layout_height="235dp"
+                    android:layout_centerInParent="true" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
