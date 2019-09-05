@@ -19,6 +19,7 @@
         <activity android:name=".news.newsList.ClassActivity" />
         <activity android:name=".settings.SettingActivity" />
         <activity android:name=".favorites.FavorActivity" />
+        <activity android:name=".history.HistoryActivity" />
         <activity android:name=".news.newsDetail.NewsDetailActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait">

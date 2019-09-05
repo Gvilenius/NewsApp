@@ -6,9 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".favorites.FavorActivity">
 
-    <ListView
-        android:id="@+id/favorite_view"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-    </ListView>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/favorite_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></ListView>
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

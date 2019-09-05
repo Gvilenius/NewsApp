@@ -1,4 +1,4 @@
-package com.java.news.favorites;
+package com.java.news.history;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.java.news.R;
 import com.java.news.data.NewsEntity;
+import com.java.news.favorites.FavorContract;
 import com.java.news.myitems.FavoriteAdapter;
 import com.java.news.myitems.MyData;
 import com.java.news.news.newsDetail.NewsDetailActivity;
@@ -19,9 +20,9 @@ import java.util.List;
 
 //import com.java.news.myitems.NewsAdaptor;
 
-public class FavorActivity extends AppCompatActivity implements FavorContract.View{
+public class HistoryActivity extends AppCompatActivity implements FavorContract.View{
 
-    FavorPresenter mPresenter;
+    HistoryPresenter mPresenter;
     ListView mListView;
     FavoriteAdapter mAdapter;
     List<MyData> mDatas;
@@ -29,12 +30,12 @@ public class FavorActivity extends AppCompatActivity implements FavorContract.Vi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite);
-        mPresenter=new FavorPresenter(this);
+        mPresenter=new HistoryPresenter(this);
         mListView=findViewById(R.id.favorite_view);
         mDatas=new ArrayList<>();
 
         mPresenter.refresh();
-        mAdapter=new FavoriteAdapter(FavorActivity.this,mDatas);
+        mAdapter=new FavoriteAdapter(HistoryActivity.this,mDatas);
         mListView.setAdapter(mAdapter);
 
         mListView.setOnItemClickListener(
@@ -42,7 +43,7 @@ public class FavorActivity extends AppCompatActivity implements FavorContract.Vi
                     @Override
                     public void onItemClick(
                             AdapterView<?> parent, View view, int position, long id) {
-                        Intent intent = new Intent(FavorActivity.this, NewsDetailActivity.class);
+                        Intent intent = new Intent(HistoryActivity.this, NewsDetailActivity.class);
                         String message = mDatas.get(position).mID;
                         intent.putExtra("NewsID", message);
                         startActivity(intent);

@@ -2,6 +2,7 @@ package com.java.news.myitems;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,7 +72,10 @@ public class RefreshAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 Glide.with(mContext).load(theUrl).placeholder( R.drawable.heart ).error( R.drawable.heart ).dontAnimate().into(itemViewHolder.mImage);
 //                System.out.println(theUrl);
             }
-
+            if(mDatas.get(position).hasSeen)
+                itemViewHolder.mTvContent.setTextColor(Color.GRAY);
+            else
+                itemViewHolder.mTvContent.setTextColor(Color.BLACK);
         }else if (holder instanceof FooterViewHolder) {
             FooterViewHolder footerViewHolder = (FooterViewHolder) holder;
             switch (mLoadMoreStatus) {
@@ -123,10 +127,10 @@ public class RefreshAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 @Override
                 public void onClick(View v) {
                     mDatas.get(index).hasSeen=true;
+                    mTvContent.setTextColor(Color.GRAY);
                     Intent intent = new Intent(mContext, NewsDetailActivity.class);
                     String message = mId;
                     intent.putExtra("NewsID", message);
-                    intent.putExtra("isFavorite", mDatas.get(index).isFavorate);
                     mContext.startActivity(intent);
 //                    Toast.makeText(mContext, "info "+ mTvContent.getText(), Toast.LENGTH_SHORT).show();
                 }
@@ -164,7 +168,12 @@ public class RefreshAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         mDatas.addAll(items);
         notifyDataSetChanged();
     }
-    public void RefreshTheView(){
+    public void changeData(List<MyData> datas){
+        mDatas=datas;
+        notifyDataSetChanged();
+    }
+    public void refreshShow()
+    {
         notifyDataSetChanged();
     }
 }
