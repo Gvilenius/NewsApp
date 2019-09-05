@@ -34,7 +34,19 @@ public class NewsHisEntity implements RealmModel, News {
         setPublisher(news.getPublisher());
         setImgUrls(news.getImgUrls());
         setKeywords(news.getKeywords());
+        setVideo(news.getVideo());
     }
+
+    private String video;
+
+    public String getVideo() {
+        return video;
+    }
+
+    public void setVideo(String video) {
+        this.video = video;
+    }
+
     public RealmList<String> getImgUrls() {
         return imgUrls;
     }

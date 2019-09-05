@@ -86,7 +86,7 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
         getSupportActionBar().hide();
         setContentView(R.layout.activity_news);
 
-        mPresenter = new NewsListPresenter(this,"科技","特朗普");
+        mPresenter = new NewsListPresenter(this,"","美国男子野外");
 
         mRecyclerView = findViewById(R.id.news_list);
         mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);

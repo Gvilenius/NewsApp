@@ -13,11 +13,16 @@ import com.java.news.R;
 import com.java.news.data.NewsEntity;
 import com.java.news.data.RealmHelper;
 
+import cn.jzvd.Jzvd;
+import cn.jzvd.JzvdStd;
+
 public class NewsDetailActivity extends AppCompatActivity {
     TextView title;
     TextView publisher;
     TextView time;
     ImageView image1,image2;
+    private JzvdStd jzVideoPlayerStandard;
+
     TextView info;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,5 +61,22 @@ public class NewsDetailActivity extends AppCompatActivity {
             image1.setVisibility(View.GONE);
             image2.setVisibility(View.GONE);
         }
+
+        String video_url = "https://www.w3schools.com/html/movie.mp4";
+        jzVideoPlayerStandard = findViewById(R.id.jz_video_player);
+        jzVideoPlayerStandard.setUp(video_url, "video");
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (Jzvd.backPress()) {
+            return;
+        }
+        super.onBackPressed();
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Jzvd.releaseAllVideos();
     }
 }

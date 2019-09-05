@@ -24,8 +24,8 @@ public class RealmHelper {
 
     public List<NewsEntity> getNewsByRecommend(){
         List<NewsEntity> source = mRealm.where(NewsEntity.class).findAll();
-        List<NewsHisEntity> his = mRealm.where(NewsHisEntity.class).findAll();
-        List<NewsFavorEntity> favor = mRealm.where(NewsFavorEntity.class).findAll();
+        List<NewsEntity> his = mRealm.where(NewsEntity.class).equalTo("isRead", true).findAll();
+        List<NewsEntity> favor = mRealm.where(NewsEntity.class).equalTo("isFavor", true).findAll();
         return mRec.recommendSort(source, his, favor);
     }
     public static RealmHelper getInstance(){
@@ -83,7 +83,7 @@ public class RealmHelper {
     }
 
 
-    public void insertFavor(final NewsFavorEntity news){
+    public void updateFavor(final NewsEntity news){
         mRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -93,29 +93,8 @@ public class RealmHelper {
     }
 
 
-    public void deleteFavor(final String newsID){
 
-        RealmAsyncTask realmAsyncTask = mRealm.executeTransactionAsync(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                RealmResults<NewsFavorEntity> news = realm.where(NewsFavorEntity.class).findAll();
-                news.deleteFirstFromRealm();
-            }
-        }, new Realm.Transaction.OnSuccess() {
-            @Override
-            public void onSuccess() {
-//                UIUtils.showToast("已取消收藏");
-            }
-        }, new Realm.Transaction.OnError() {
-            @Override
-            public void onError(Throwable error) {
-//                UIUtils.showToast("已添加收藏");
-            }
-        });
-    }
-
-
-    public void insertNewsHis(final NewsHisEntity newsHis){
+    public void updateNewsHis(final NewsEntity newsHis){
         mRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -124,18 +103,34 @@ public class RealmHelper {
         });
     }
 
-    public void deleteNewsHis(){
+//    public void deleteNewsHis(String newsID){
+//        RealmAsyncTask realmAsyncTask = mRealm.executeTransactionAsync(new Realm.Transaction() {
+//            @Override
+//            public void execute(Realm realm) {
+//                RealmResults<NewsEntity> news = realm.where(NewsEntity.class).findAll();
+//                news.deleteFirstFromRealm();
+//            }
+//        }, new Realm.Transaction.OnSuccess() {
+//            @Override
+//            public void onSuccess() {
+////                UIUtils.showToast("已取消收藏");
+//            }
+//        }, new Realm.Transaction.OnError() {
+//            @Override
+//            public void onError(Throwable error) {
+////                UIUtils.showToast("已添加收藏");
+//            }
+//        });
+//    }
 
-    }
-
-    public void deleteAllNewsHis(){
-        mRealm.executeTransaction(new Realm.Transaction(){
-            @Override
-            public void execute(Realm realm){
-                mRealm.where(NewsHisEntity.class).findAll().deleteAllFromRealm();
-            }
-        });
-    }
+//    public void deleteAllNewsHis(){
+//        mRealm.executeTransaction(new Realm.Transaction(){
+//            @Override
+//            public void execute(Realm realm){
+//                mRealm.where(NewsHisEntity.class).findAll().deleteAllFromRealm();
+//            }
+//        });
+//    }
 
     public void insertSearchHis(final SearchHisEntity searchHis){
         mRealm.executeTransaction(new Realm.Transaction() {
@@ -145,8 +140,6 @@ public class RealmHelper {
             }
         });
     }
-
-
 
     public void deleteAllSearchHis(){
         mRealm.executeTransaction(new Realm.Transaction(){

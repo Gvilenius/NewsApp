@@ -72,15 +72,15 @@ public class NewsRecSystem {
     }
 
 
-    public List<NewsEntity> recommendSort(List<NewsEntity> source, List<NewsHisEntity> his, List<NewsFavorEntity> favor)
+    public List<NewsEntity> recommendSort(List<NewsEntity> source, List<NewsEntity> his, List<NewsEntity> favor)
     {
         List<NewsEntity> result = new ArrayList<NewsEntity>();
         Vector User = new Vector();
 
-        for(NewsHisEntity data: his)
+        for(NewsEntity data: his)
             User.add(data, wRead, wCata);
 
-        for(NewsFavorEntity data: favor)
+        for(NewsEntity data: favor)
             User.add(data, wFavor, wCata);
 
         double userNorm2 = User.norm2();

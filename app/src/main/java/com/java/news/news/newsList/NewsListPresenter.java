@@ -21,12 +21,12 @@ public class NewsListPresenter implements NewsListContract.Presenter {
 
 
     private NewsListContract.View mNewsListView;
-    private String mCatogory;
+    private String mCategory;
     private String mKeyword;
     private int mCurrentPage;
     public NewsListPresenter(NewsListContract.View newsListView, String category, String keyword){
         mNewsListView = newsListView;
-        mCatogory = category;
+        mCategory = category;
         mKeyword = keyword;
         mCurrentPage = 0;
     }
@@ -42,7 +42,7 @@ public class NewsListPresenter implements NewsListContract.Presenter {
     @SuppressLint("CheckResult")
     @Override
     public void refresh() {
-        RetrofitManager.getInstance().fetchNewsList(PAGE_SIZE, mKeyword, mCatogory)
+        RetrofitManager.getInstance().fetchNewsList(PAGE_SIZE, mKeyword, mCategory)
         .subscribe(new Observer<NewsResponse>(){
             private Disposable disposable;
             @Override
@@ -54,7 +54,10 @@ public class NewsListPresenter implements NewsListContract.Presenter {
             public void onNext(NewsResponse value){
                 List<NewsEntity> newsList = value.getNewsList();
                 dbHelper.insertNewsList(newsList);
-                mNewsListView.setNewsList(newsList.subList(0, 10));
+                if (newsList.size() > 10)
+                    mNewsListView.setNewsList(newsList.subList(0, 10));
+                else
+                    mNewsListView.setNewsList(newsList);
             }
             @Override
             public void onError(Throwable e) {

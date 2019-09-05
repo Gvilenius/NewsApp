@@ -22,10 +22,47 @@ public class NewsEntity implements RealmModel, News {
         private String title;
         private String publisher;
         private String category;
+
+
+        private Boolean isFavor;
+
+        public NewsEntity(){
+            isFavor = false;
+            isRead = false;
+        }
+        public Boolean getFavor() {
+            return isFavor;
+        }
+
+        public void setFavor(Boolean favor) {
+            isFavor = favor;
+        }
+
+        public Boolean getRead() {
+            return isRead;
+        }
+
+        public void setRead(Boolean read) {
+            isRead = read;
+        }
+
+    private Boolean isRead;
+
+
         private RealmList<String> imgUrls;
 
         @Ignore
         private String image;
+
+        private String video;
+
+        public String getVideo() {
+            return video;
+        }
+
+        public void setVideo(String video) {
+            this.video = video;
+        }
 
         public RealmList<String> getImgUrls(){
             if (imgUrls == null) {
@@ -40,6 +77,7 @@ public class NewsEntity implements RealmModel, News {
             }
             return imgUrls;
         }
+
 
         public String getTitle() {
             return title;

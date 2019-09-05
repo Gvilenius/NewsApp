@@ -19,7 +19,10 @@
         <activity android:name=".news.newsList.ClassActivity" />
         <activity android:name=".settings.SettingActivity" />
         <activity android:name=".favorites.FavorActivity" />
-        <activity android:name=".news.newsDetail.NewsDetailActivity" />
+        <activity android:name=".news.newsDetail.NewsDetailActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name=".news.newsList.NewsActivity"
             android:windowSoftInputMode="adjustPan"> <!-- 使得打字时窗口大小不变 -->
