@@ -131,6 +131,7 @@ public class RefreshAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     Intent intent = new Intent(mContext, NewsDetailActivity.class);
                     String message = mId;
                     intent.putExtra("NewsID", message);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContext.startActivity(intent);
 //                    Toast.makeText(mContext, "info "+ mTvContent.getText(), Toast.LENGTH_SHORT).show();
                 }

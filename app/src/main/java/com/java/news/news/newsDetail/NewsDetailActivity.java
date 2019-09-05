@@ -1,7 +1,13 @@
 package com.java.news.news.newsDetail;
 
+import android.app.Application;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,14 +16,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
+import com.java.news.NewsApplication;
 import com.java.news.R;
 import com.java.news.data.NewsEntity;
 import com.java.news.myitems.NightMode;
 
+import java.io.File;
+
+import butterknife.BindView;
 import cn.jzvd.Jzvd;
 import cn.jzvd.JzvdStd;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.RuntimePermissions;
 
-public class NewsDetailActivity extends AppCompatActivity implements NewsDetailContract.View{
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
+@RuntimePermissions
+public class NewsDetailActivity extends AppCompatActivity implements NewsDetailContract.View {
     TextView title;
     TextView publisher;
     TextView time;
@@ -116,9 +132,33 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsDetailC
             mPresenter.unFavor(news);
         setFavButton();
     }
+
+    @NeedsPermission(WRITE_EXTERNAL_STORAGE)
     public void shareClick(View view)
     {
+//        Bitmap bitmap = ((GlideBitmapDrawable) (image1).getDrawable()).getBitmap();
+//
+//        if (bitmap == null) return;
+//
+//        Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, null,null));
+//        if (uri == null) return;
+        Uri uri = null;
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
 
+        String content = news.getContent();
+        if (content.length() > 100) content = "概要:" + content.substring(0, 100) + "...";
+        if(uri!=null){
+            shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+            shareIntent.setType("image/*");
+            shareIntent.putExtra("sms_body", content);
+        }else{
+            shareIntent.setType("text/plain");
+        }
+
+        shareIntent.putExtra(Intent.EXTRA_TEXT, content);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, news.getUrl());
+
+        startActivity(Intent.createChooser(shareIntent, "分享到"));
     }
 
     private void setFavButton()
@@ -134,4 +174,6 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsDetailC
             notFav.setVisibility(View.VISIBLE);
         }
     }
+
+
 }

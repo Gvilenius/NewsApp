@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.java.news">
-
+    <meta-data
+        android:name="IFLYTEK_APPKEY"
+        android:value="5d70b26a"/>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />  
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />  
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />  
+    <uses-permission android:name="android.permission.READ_CONTACTS" />  
 
     <application
         android:name=".NewsApplication"
@@ -15,7 +25,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".setting.SettingActivity"></activity>
+        <activity android:name=".settings.SettingActivity"></activity>
         <activity android:name=".loading.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,7 +35,6 @@
         </activity>
         <activity android:name=".myitems.TouTiaoTwoActivity" />
         <activity android:name=".news.newsList.ClassActivity" />
-        <activity android:name=".settings.SettingActivity" />
         <activity android:name=".favorites.FavorActivity" />
         <activity android:name=".history.HistoryActivity" />
         <activity android:name=".search.SearchActivity" />

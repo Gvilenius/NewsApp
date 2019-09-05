@@ -23,6 +23,7 @@ public class NewsEntity implements RealmModel, News {
         private String publisher;
         private String category;
 
+    private String url;
 
         private Boolean isFavor;
 
@@ -79,7 +80,16 @@ public class NewsEntity implements RealmModel, News {
         }
 
 
-        public String getTitle() {
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getTitle() {
             return title;
         }
 

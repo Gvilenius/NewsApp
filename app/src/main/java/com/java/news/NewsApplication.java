@@ -9,8 +9,12 @@ import android.content.Context;
 import com.facebook.stetho.Stetho;
 import com.facebook.stetho.inspector.protocol.module.HeapProfiler;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
+import com.iflytek.cloud.Setting;
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechUtility;
 import com.java.news.data.NewsEntity;
 import com.java.news.data.RealmHelper;
+import com.java.news.utils.TTSUtils;
 import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
 
 import io.realm.Realm;
@@ -23,8 +27,13 @@ public class NewsApplication extends Application {
     @Override
     public void onCreate(){
         super.onCreate();
-        appContext = this;
+        appContext = getApplicationContext();
         RealmHelper.init(this);
+
+//        SpeechUtility.createUtility(this, SpeechConstant.APPID+ "=5d70b26a");//=号后面写自己应用的APPID
+//        Setting.setShowLog(true);
+//
+//        TTSUtils.getInstance().speak("hello，我想说的话在这里");
     }
     @Override
     public void onTerminate() {

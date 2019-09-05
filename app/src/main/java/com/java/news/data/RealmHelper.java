@@ -120,6 +120,7 @@ public class RealmHelper {
     public List<NewsEntity> getReadNews(){
         return mRealm.where(NewsEntity.class).equalTo("isRead", true).findAll();
     }
+
     public void deleteAllNews(){
         mRealm.executeTransaction(new Realm.Transaction(){
             @Override
