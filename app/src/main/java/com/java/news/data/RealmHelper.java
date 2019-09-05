@@ -77,7 +77,7 @@ public class RealmHelper {
         mRealm.executeTransaction(new Realm.Transaction(){
             @Override
             public void execute(Realm realm){
-                mRealm.where(NewsEntity.class).findAll().deleteAllFromRealm();
+                realm.where(NewsEntity.class).findAll().deleteAllFromRealm();
             }
         });
     }
