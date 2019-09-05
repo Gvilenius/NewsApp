@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,10 +24,11 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.java.news.R;
 import com.java.news.data.NewsEntity;
 import com.java.news.favorites.FavorActivity;
-import com.java.news.settings.SettingActivity;
 import com.java.news.myitems.ClassAdaptor;
 import com.java.news.myitems.CustomPopupWindow;
 import com.java.news.myitems.RefreshAdapter;
+import com.java.news.myitems.TouTiaoTwoActivity;
+import com.java.news.settings.SettingActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -228,7 +228,9 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
 
     public void classChoosePage(View view)
     {
-        mPop.showAtLocation(NewsActivity.this.findViewById(R.id.news_view), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
+//        mPop.showAtLocation(NewsActivity.this.findViewById(R.id.news_view), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
+        Intent intent = new Intent(this, TouTiaoTwoActivity.class);
+        startActivity(intent);
     }
 
     void scrollToPosition(int position)
