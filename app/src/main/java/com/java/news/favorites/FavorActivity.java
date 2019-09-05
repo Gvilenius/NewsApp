@@ -28,6 +28,7 @@ public class FavorActivity extends AppCompatActivity implements FavorContract.Vi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_favorite);
         mPresenter=new FavorPresenter(this);
         mListView=findViewById(R.id.favorite_view);

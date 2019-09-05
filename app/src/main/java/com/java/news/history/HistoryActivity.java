@@ -29,6 +29,7 @@ public class HistoryActivity extends AppCompatActivity implements FavorContract.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_favorite);
         mPresenter=new HistoryPresenter(this);
         mListView=findViewById(R.id.favorite_view);

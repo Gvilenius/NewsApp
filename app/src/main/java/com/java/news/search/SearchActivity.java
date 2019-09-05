@@ -31,6 +31,7 @@ public class SearchActivity extends AppCompatActivity implements NewsListContrac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_search);
         Intent intent=getIntent();
         String keyword=intent.getStringExtra("keyword");

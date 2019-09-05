@@ -15,6 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".setting.SettingActivity"></activity>
         <activity android:name=".loading.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,7 +32,7 @@
         <activity
             android:name=".news.newsDetail.NewsDetailActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".news.newsList.NewsActivity"
             android:windowSoftInputMode="adjustPan"> <!-- 使得打字时窗口大小不变 -->

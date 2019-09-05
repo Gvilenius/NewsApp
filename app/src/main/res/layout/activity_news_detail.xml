@@ -15,7 +15,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@color/search"
+            android:background="@color/TetleBar"
             android:orientation="horizontal">
 
             <TextView
