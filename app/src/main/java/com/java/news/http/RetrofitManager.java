@@ -60,7 +60,7 @@ public class RetrofitManager {
     }
 
     public Observable<NewsResponse> fetchNewsList(String pageSize, String keyword, String catagory){
-        return mNewsService.getNewsList(pageSize, "", "", "", "")
+        return mNewsService.getNewsList(pageSize, "", "2019-09-05", keyword, catagory)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

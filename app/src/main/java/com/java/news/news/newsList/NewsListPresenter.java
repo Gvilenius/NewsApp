@@ -17,50 +17,31 @@ import io.reactivex.disposables.Disposable;
 
 public class NewsListPresenter implements NewsListContract.Presenter {
     private final String PAGE_SIZE = "200";
+    private final RealmHelper dbHelper = RealmHelper.getInstance();
+
 
     private NewsListContract.View mNewsListView;
     private String mCatogory;
     private String mKeyword;
+    private int mCurrentPage;
     public NewsListPresenter(NewsListContract.View newsListView, String category, String keyword){
         mNewsListView = newsListView;
         mCatogory = category;
         mKeyword = keyword;
+        mCurrentPage = 0;
     }
 
     @SuppressLint("CheckResult")
     @Override
     public void loadMore() {
-        RetrofitManager.getInstance().fetchNewsList(PAGE_SIZE, mKeyword, mCatogory)
-                .subscribe(new Observer<NewsResponse>(){
-                    private Disposable disposable;
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        disposable = d;
-                    }
-
-                    @Override
-                    public void onNext(NewsResponse value){
-                        List<NewsEntity> newsList = value.getNewsList();
-
-                        //                To handle the data here, for exmple
-                        mNewsListView.appendNewsList(newsList);
-                    }
-                    @Override
-                    public void onError(Throwable e) {
-                        System.out.println("Error");
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        System.out.println("加载完成");
-                    }
-                });
+        List<NewsEntity> newsList= dbHelper.getNewsListByPage(mCurrentPage, 10);
+        mNewsListView.appendNewsList(newsList);
+        mCurrentPage += 1;
     }
 
     @SuppressLint("CheckResult")
     @Override
     public void refresh() {
-        final RealmHelper dbHelper = RealmHelper.getInstance();
         RetrofitManager.getInstance().fetchNewsList(PAGE_SIZE, mKeyword, mCatogory)
         .subscribe(new Observer<NewsResponse>(){
             private Disposable disposable;
@@ -72,9 +53,7 @@ public class NewsListPresenter implements NewsListContract.Presenter {
             @Override
             public void onNext(NewsResponse value){
                 List<NewsEntity> newsList = value.getNewsList();
-                //                To handle the data here, for exmple
                 dbHelper.insertNewsList(newsList);
-                mNewsListView.setNewsList(newsList);
             }
             @Override
             public void onError(Throwable e) {
@@ -86,6 +65,8 @@ public class NewsListPresenter implements NewsListContract.Presenter {
                 System.out.println("刷新完成");
             }
         });
+        mCurrentPage = 0;
+        loadMore();
     }
 
     @Override

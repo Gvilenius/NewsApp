@@ -8,7 +8,6 @@ import java.util.regex.Pattern;
 
 import io.realm.RealmList;
 import io.realm.RealmModel;
-import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
@@ -18,7 +17,6 @@ public class NewsEntity implements RealmModel, News {
 
         @PrimaryKey
         private String newsID;
-
         private String content;
         private String publishTime;
         private String title;
@@ -31,7 +29,7 @@ public class NewsEntity implements RealmModel, News {
 
         public RealmList<String> getImgUrls(){
             if (imgUrls == null) {
-                String pattern =  "http.*\\.((j[pe]{1,2}g)|(png))";
+                String pattern =  "http.*?\\.((j[pe]{1,2}g)|(png))";
                 Pattern p = Pattern.compile(pattern);
                 Matcher m = p.matcher(image);
                 RealmList<String> urls = new RealmList<>();

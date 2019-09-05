@@ -9,6 +9,7 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmAsyncTask;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 public class RealmHelper {
     private static final String DB_NAME = "myRealm.realm";
@@ -42,6 +43,7 @@ public class RealmHelper {
     public NewsEntity getNewsByID(String newsID){
         return mRealm.where(NewsEntity.class).equalTo("newsID", newsID).findFirst();
     }
+
     public void insertNewsList(final List<NewsEntity> newsList){
         mRealm.executeTransaction(
                 new Realm.Transaction() {
@@ -54,6 +56,14 @@ public class RealmHelper {
                     }
                 });
     }
+
+    public List<NewsEntity> getNewsListByPage(int pageIndex, int pageSize){
+        return mRealm.where(NewsEntity.class)
+                .greaterThanOrEqualTo("index", pageSize*pageIndex + 0)
+                .lessThan("index", pageSize*pageIndex + pageSize).sort("index", Sort.ASCENDING)
+                .findAll();
+    }
+
     public void deleteAllNews(){
         mRealm.executeTransaction(new Realm.Transaction(){
             @Override

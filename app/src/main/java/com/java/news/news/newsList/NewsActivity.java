@@ -24,7 +24,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.java.news.R;
 import com.java.news.data.NewsEntity;
-import com.java.news.main.SettingActivity;
+import com.java.news.favorites.FavorActivity;
+import com.java.news.settings.SettingActivity;
 import com.java.news.myitems.ClassAdaptor;
 import com.java.news.myitems.CustomPopupWindow;
 import com.java.news.myitems.RefreshAdapter;
@@ -85,7 +86,7 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
         getSupportActionBar().hide();
         setContentView(R.layout.activity_news);
 
-        mPresenter=new NewsListPresenter(this,"aa","aa");
+        mPresenter = new NewsListPresenter(this,"科技","特朗普");
 
         mRecyclerView = findViewById(R.id.news_list);
         mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
@@ -193,7 +194,7 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
             public boolean onMenuItemClick(MenuItem menuItem) {
                 switch (menuItem.getItemId()){
                     case R.id.option_favorite:
-                        Intent intentFavorite = new Intent(NewsActivity.this, FavoriteActivity.class);
+                        Intent intentFavorite = new Intent(NewsActivity.this, FavorActivity.class);
                         startActivity(intentFavorite);
                         return true;
                     case R.id.option_setting:
