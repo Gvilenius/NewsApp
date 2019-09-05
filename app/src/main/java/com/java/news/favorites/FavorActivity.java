@@ -6,6 +6,7 @@ import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.java.news.R;
+import com.java.news.data.NewsEntity;
 import com.java.news.myitems.NewsItem;
 
 import java.util.ArrayList;
@@ -54,5 +55,10 @@ public class FavorActivity extends AppCompatActivity implements FavorContract.Vi
 //            String input="Item "+i+": random number ="+ran.nextInt(100);
 //            newsList.add(new NewsItem(input,R.drawable.ic_launcher_foreground));
 //        }
+    }
+
+    @Override
+    public void setNewsList(List<NewsEntity> newsList) {
+
     }
 }

@@ -124,8 +124,24 @@ public class RealmHelper {
         });
     }
 
-    public void deleteNewsHis(){
-
+    public void deleteNewsHis(String newsID){
+        RealmAsyncTask realmAsyncTask = mRealm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmResults<NewsHisEntity> news = realm.where(NewsHisEntity.class).findAll();
+                news.deleteFirstFromRealm();
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+//                UIUtils.showToast("已取消收藏");
+            }
+        }, new Realm.Transaction.OnError() {
+            @Override
+            public void onError(Throwable error) {
+//                UIUtils.showToast("已添加收藏");
+            }
+        });
     }
 
     public void deleteAllNewsHis(){

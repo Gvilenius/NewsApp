@@ -63,6 +63,13 @@
                 android:layout_height="200dp"
                 android:adjustViewBounds="true"
                 android:layout_marginTop="10dp" />
+
+
+            <cn.jzvd.JzvdStd
+                android:id="@+id/jz_video_player"
+                android:layout_width="match_parent"
+                android:layout_height="235dp"
+                android:layout_centerInParent="true" />
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

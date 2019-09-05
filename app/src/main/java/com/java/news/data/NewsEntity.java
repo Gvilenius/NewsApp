@@ -22,10 +22,23 @@ public class NewsEntity implements RealmModel, News {
         private String title;
         private String publisher;
         private String category;
+
+
+
         private RealmList<String> imgUrls;
 
         @Ignore
         private String image;
+
+        private String video;
+
+        public String getVideo() {
+            return video;
+        }
+
+        public void setVideo(String video) {
+            this.video = video;
+        }
 
         public RealmList<String> getImgUrls(){
             if (imgUrls == null) {
@@ -40,6 +53,7 @@ public class NewsEntity implements RealmModel, News {
             }
             return imgUrls;
         }
+
 
         public String getTitle() {
             return title;
