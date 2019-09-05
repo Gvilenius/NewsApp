@@ -5,13 +5,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
-import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.java.news.R;
 import com.java.news.data.NewsEntity;
 
@@ -111,6 +108,10 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsDetailC
         else
             mPresenter.unFavor(news);
         setFavButton();
+    }
+    public void shareClick(View view)
+    {
+
     }
 
     private void setFavButton()

@@ -32,15 +32,22 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="5dp"
-                app:srcCompat="@drawable/heart_fill"
+                app:srcCompat="@drawable/star_fill"
                 android:onClick="favorateClick"/>
             <ImageView
                 android:id="@+id/notFav_button"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="5dp"
-                app:srcCompat="@drawable/heart_red"
+                app:srcCompat="@drawable/star_yellow"
                 android:onClick="favorateClick"/>
+            <ImageView
+                android:id="@+id/share_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="5dp"
+                app:srcCompat="@drawable/share"
+                android:onClick="shareClick"/>
 
         </LinearLayout>
 
