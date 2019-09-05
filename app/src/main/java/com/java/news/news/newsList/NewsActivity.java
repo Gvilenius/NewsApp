@@ -3,24 +3,25 @@ package com.java.news.news.newsList;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.java.news.R;
 import com.java.news.favorites.FavorActivity;
 import com.java.news.history.HistoryActivity;
 import com.java.news.myitems.ClassAdapter;
 import com.java.news.myitems.TouTiaoTwoActivity;
+import com.java.news.search.SearchActivity;
 import com.java.news.settings.SettingActivity;
+import com.wyt.searchbox.SearchFragment;
+import com.wyt.searchbox.custom.IOnSearchClickListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,16 +31,14 @@ import butterknife.ButterKnife;
 
 
 
-public class NewsActivity extends AppCompatActivity implements MyListener{
-    private NewsListContract.Presenter mPresenter;
-    private NewsListFragment mFOne;
+public class NewsActivity extends AppCompatActivity implements MyListener, View.OnClickListener, IOnSearchClickListener {
     private NewsFragment mNewsFragment;
-    private ViewPager mViewPager;
 
     // 分类栏信息
     @BindView(R.id.class_view) GridView classView;
     @BindView(R.id.class_scroll) HorizontalScrollView scrollView;
-    @BindView(R.id.action_a) FloatingActionButton actionA;
+    @BindView(R.id.action_a)
+    FloatingActionButton actionA;
     @BindView(R.id.action_b) FloatingActionButton actionB;
     @BindView(R.id.action_c) FloatingActionButton actionC;
 
@@ -59,6 +58,7 @@ public class NewsActivity extends AppCompatActivity implements MyListener{
         getSupportActionBar().hide();
         setContentView(R.layout.activity_news);
         ButterKnife.bind(this);
+
         //开始
         mNewsFragment = NewsFragment.newInstance(classesMy);
         mNewsFragment.setmLis(this);
@@ -74,11 +74,9 @@ public class NewsActivity extends AppCompatActivity implements MyListener{
                     @Override
                     public void onItemClick(
                             AdapterView<?> parent, View view, int position, long id) {
-                                classChoose(position);
+                        classChoose(position);
                     }
                 });
-
-
 
         actionA.setOnClickListener(this);
         actionC.setOnClickListener(this);
@@ -87,8 +85,8 @@ public class NewsActivity extends AppCompatActivity implements MyListener{
         searchFragment.setOnSearchClickListener(this);
 
         searchIcon.setOnClickListener(this);
-
-    void gridSetting() {
+    }
+    void gridSetting(){
         int size = classesMy.size();
         int length = 60;
         DisplayMetrics dm = new DisplayMetrics();
@@ -139,13 +137,14 @@ public class NewsActivity extends AppCompatActivity implements MyListener{
     }
 
     void scrollToPosition(int position)
-    {
-        scrollView.scrollTo((position-2) *itemWidth,0);
+        {
+            scrollView.scrollTo((position - 2) * itemWidth, 0);
+        }
 
-    public void changeScroll(int pos) {
-        scrollToPosition(pos);
-        classChoose(pos);
-
+    public void changeScroll(int pos){
+            scrollToPosition(pos);
+            classChoose(pos);
+    }
     @Override
     public void onClick(View v) {
         Intent intent;
@@ -172,7 +171,9 @@ public class NewsActivity extends AppCompatActivity implements MyListener{
     @Override
     public void OnSearchClick(String keyword) {
         //这里处理逻辑
-        Toast.makeText(NewsActivity.this, keyword, Toast.LENGTH_SHORT).show();
+        Intent intent=new Intent(NewsActivity.this, SearchActivity.class);
+        intent.putExtra("keyword",keyword);
+        startActivity(intent);
     }
 }
 

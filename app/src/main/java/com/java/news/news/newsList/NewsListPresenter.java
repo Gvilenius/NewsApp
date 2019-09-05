@@ -25,11 +25,13 @@ public class NewsListPresenter implements NewsListContract.Presenter {
     private String mCategory;
     private String mKeyword;
     private int mCurrentPage;
+    private int init = 0;
     public NewsListPresenter(NewsListContract.View newsListView, String category, String keyword){
         mNewsListView = newsListView;
         mCategory = category;
         mKeyword = keyword;
         mCurrentPage = 0;
+
     }
 
     @SuppressLint("CheckResult")
@@ -50,13 +52,12 @@ public class NewsListPresenter implements NewsListContract.Presenter {
     @SuppressLint("CheckResult")
     @Override
     public void refresh() {
-
-        if (mCategory == "推荐"){
+        if (init > 0 && mCategory == "推荐") {
             mNewsListView.setNewsList(dbHelper.getNewsByRecommend());
             return;
         }
-
-        RetrofitManager.getInstance().fetchNewsList(PAGE_SIZE, mKeyword, mCategory)
+        String cate = (mCategory == "推荐") ? "" : mCategory;
+        RetrofitManager.getInstance().fetchNewsList(PAGE_SIZE, mKeyword, cate)
         .subscribe(new Observer<NewsResponse>(){
             private Disposable disposable;
             @Override
@@ -79,19 +80,24 @@ public class NewsListPresenter implements NewsListContract.Presenter {
                 mCurrentPage = 0;
                 loadMore();
             }
-
             @Override
             public void onComplete() {
                 mCurrentPage = 1;
                 System.out.println("刷新完成");
             }
         });
+        init = 1;
 
     }
 
     @Override
     public void keyword(String keyword) {
         mKeyword = keyword;
+    }
+
+    @Override
+    public NewsEntity getNewsById(String id) {
+        return dbHelper.getNewsByID(id);
     }
 
     @Override

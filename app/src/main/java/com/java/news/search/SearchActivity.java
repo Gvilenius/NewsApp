@@ -1,103 +1,60 @@
-package com.java.news.news.newsList;
+package com.java.news.search;
 
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.java.news.R;
 import com.java.news.data.NewsEntity;
 import com.java.news.myitems.MyData;
 import com.java.news.myitems.RefreshAdapter;
+import com.java.news.news.newsList.NewsListContract;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewsListFragment extends Fragment implements NewsListContract.View{
-    private static final String TAG = "NewsListFragment";
+//import com.java.news.myitems.NewsAdaptor;
+
+public class SearchActivity extends AppCompatActivity implements NewsListContract.View{
+
+    SearchPresenter mPresenter;
     // 刷新栏信息
     RecyclerView mRecyclerView;
-    SwipeRefreshLayout mSwipeRefreshLayout;
     List<MyData> mDatas = new ArrayList<>();
     private RefreshAdapter mRefreshAdapter;
     private LinearLayoutManager mLinearLayoutManager;
 
-    public String mType;
-    NewsListPresenter mNewsPresenter;
-
-    public static Fragment newInstance(String type) {
-        Bundle args = new Bundle();
-        NewsListFragment fragment = new NewsListFragment();
-        args.putString("category", type);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mType = getArguments().getString("category");
-        mNewsPresenter = new NewsListPresenter(this,mType,"");
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_newslist,container,false);
-        mSwipeRefreshLayout=view.findViewById(R.id.swipeRefreshLayout);
-        mRecyclerView=view.findViewById(R.id.news_list);
-        initView();
+        setContentView(R.layout.activity_search);
+        Intent intent=getIntent();
+        String keyword=intent.getStringExtra("keyword");
+        mPresenter=new SearchPresenter(this,keyword);
+        mRecyclerView=findViewById(R.id.search_list);
         initData();
         initListener();
-        return view;
-    }
-
-    //刷新部分初始化
-    private void initView() {
-        mSwipeRefreshLayout.setColorSchemeColors(Color.RED,Color.BLUE,Color.GREEN);
     }
 
     private void initData() {
         initRecylerView();
-        mNewsPresenter.refresh();
+        mPresenter.refresh();
     }
 
     private void initRecylerView() {
-        mRefreshAdapter = new RefreshAdapter(getActivity().getApplicationContext(),mDatas);
-        mLinearLayoutManager = new LinearLayoutManager(getActivity());
+        mRefreshAdapter = new RefreshAdapter(this,mDatas);
+        mLinearLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mRecyclerView.setAdapter(mRefreshAdapter);
     }
-
     private void initListener() {
-        initPullRefresh();
         initLoadMoreListener();
     }
 
-    private void initPullRefresh() {
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mNewsPresenter.refresh();
-                        //刷新完成
-                        mSwipeRefreshLayout.setRefreshing(false);
-//                        Toast.makeText(NewsActivity.this, "更新了 "+headDatas.size()+" 条目数据", Toast.LENGTH_SHORT).show();
-                    }
-                }, 2000);
-            }
-        });
-    }
 
     private void initLoadMoreListener() {
         mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -112,12 +69,10 @@ public class NewsListFragment extends Fragment implements NewsListContract.View{
 
                     //设置正在加载更多
                     mRefreshAdapter.changeMoreStatus(mRefreshAdapter.LOADING_MORE);
-
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-
-                            mNewsPresenter.loadMore();
+                            mPresenter.loadMore();
 //                            mRefreshAdapter.changeMoreStatus(mRefreshAdapter.PULLUP_LOAD_MORE);
 //                            Toast.makeText(NewsActivity.this, "更新了 "+footerDatas.size()+" 条目数据", Toast.LENGTH_SHORT).show();
                         }
@@ -139,6 +94,7 @@ public class NewsListFragment extends Fragment implements NewsListContract.View{
     @Override
     public void setNewsList(List<NewsEntity> newsList) {
         mDatas.clear();
+        System.out.println(newsList.size());
         addData(newsList);
     }
 
@@ -154,11 +110,8 @@ public class NewsListFragment extends Fragment implements NewsListContract.View{
 
     void addData(List<NewsEntity> newsList)
     {
-        int i=0;
         for(NewsEntity o:newsList)
         {
-            if(++i>=10)
-                break;
             MyData newData=new MyData();
             newData.mTitle=o.getTitle();
             if(!o.getImgUrls().isEmpty())
@@ -166,7 +119,7 @@ public class NewsListFragment extends Fragment implements NewsListContract.View{
             else
                 newData.mURL="null";
             newData.mID=o.getNewsID();
-            NewsEntity his=mNewsPresenter.getNewsById(newData.mID);
+            NewsEntity his=mPresenter.getNewsById(newData.mID);
             if(his==null)
                 newData.hasSeen=o.getRead();
             else
@@ -174,10 +127,10 @@ public class NewsListFragment extends Fragment implements NewsListContract.View{
             newData.mClass=o.getCategory();
             mDatas.add(newData);
         }
-
         if(newsList.size()>0)
             mRefreshAdapter.changeMoreStatus(mRefreshAdapter.PULLUP_LOAD_MORE);
         else
             mRefreshAdapter.changeMoreStatus(mRefreshAdapter.NO_LOAD_MORE);
     }
+
 }

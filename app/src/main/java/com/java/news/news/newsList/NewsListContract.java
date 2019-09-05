@@ -27,6 +27,8 @@ public interface NewsListContract {
         //设置关键字
         void keyword(String keyword);
 
+        NewsEntity getNewsById(String id);
+
         void switch2NewsDetail(NewsEntity news);
     }
 

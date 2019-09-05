@@ -29,7 +29,6 @@ public class RealmHelper {
                 .build();
         Realm.setDefaultConfiguration(config);
 
-
         Stetho.initialize(
                 Stetho.newInitializerBuilder(context)
                         .enableDumpapp(Stetho.defaultDumperPluginsProvider(context))
@@ -73,7 +72,8 @@ public class RealmHelper {
         int start = pageSize*pageIndex,
                 end = pageSize*pageIndex + pageSize;
         List<NewsEntity> newsList = new ArrayList<>();
-        RealmResults<NewsEntity> query=  mRealm.where(NewsEntity.class).like("content", keyword).findAll();
+        RealmResults<NewsEntity> query=  mRealm.where(NewsEntity.class).like("content", "*"+keyword+"*").findAll();
+        System.out.println(query.size());
         for (int i = start; i < end; ++i){
             if (i >= query.size()) break;
             newsList.add(query.get(i));
@@ -91,6 +91,8 @@ public class RealmHelper {
                     @Override
                     public void execute(Realm realm) {
                         for (NewsEntity news : newsList) {
+                            if (mRealm.where(NewsEntity.class).equalTo("newsID", news.getNewsID()).findFirst() != null)
+                                continue;
                             news.getImgUrls();
                             realm.copyToRealmOrUpdate(news);
                         }
@@ -160,8 +162,8 @@ public class RealmHelper {
             @Override
             public void execute(Realm realm) {
                 news.setFavor(false);
-            }
-        });
+    }
+});
     }
 
     public void deleteReadHis(NewsEntity news){
