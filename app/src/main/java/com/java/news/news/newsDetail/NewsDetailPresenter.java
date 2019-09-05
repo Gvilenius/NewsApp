@@ -17,25 +17,25 @@ public class NewsDetailPresenter implements NewsDetailContract.Presenter {
     @Override
     public void addHis(NewsEntity news) {
         news.setRead(true);
-        dbHelper.updateNewsHis(news);
+        dbHelper.insertOrUpdateNews(news);
     }
 
     @Override
     public void addFavor(NewsEntity news) {
         news.setFavor(true);
-        dbHelper.updateFavor(news);
+        dbHelper.insertOrUpdateNews(news);
     }
 
     @Override
     public void removeHis(NewsEntity news) {
         news.setRead(false);
-        dbHelper.updateNewsHis(news);
+        dbHelper.insertOrUpdateNews(news);
     }
 
     @Override
     public void removeFavor(NewsEntity news) {
         news.setFavor(false);
-        dbHelper.updateFavor(news);
+        dbHelper.insertOrUpdateNews(news);
     }
 
 

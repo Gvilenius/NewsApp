@@ -83,7 +83,7 @@ public class RealmHelper {
     }
 
 
-    public void updateFavor(final NewsEntity news){
+    public void insertOrUpdateNews(final NewsEntity news){
         mRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -93,15 +93,6 @@ public class RealmHelper {
     }
 
 
-
-    public void updateNewsHis(final NewsEntity newsHis){
-        mRealm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                realm.copyToRealmOrUpdate(newsHis);
-            }
-        });
-    }
 
 //    public void deleteNewsHis(String newsID){
 //        RealmAsyncTask realmAsyncTask = mRealm.executeTransactionAsync(new Realm.Transaction() {
