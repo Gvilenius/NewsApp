@@ -23,8 +23,6 @@ public class MainActivity extends AppCompatActivity implements  MainContract.Vie
         setContentView(R.layout.activity_main);
         MyButton button1 = (MyButton) findViewById(R.id.bt1);
         button1.textView1.setText("点击进入下拉刷新测试");
-
-
     }
 
 
@@ -35,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements  MainContract.Vie
 //        EditText editText = (EditText) findViewById(R.id.editText);
 //        String message = editText.getText().toString();
 //        intent.putExtra(EXTRA_MESSAGE, message);
-        startActivity(intent);
+//        startActivity(intent);
 //        final RealmHelper dbHelper = RealmHelper.getInstance();
 //        RetrofitManager.getInstance().fetchNewsList("1000", "", "")
 //                .subscribe(new Observer<NewsResponse>(){
