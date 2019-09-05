@@ -28,6 +28,7 @@ public class NewsEntity implements RealmModel, News {
         private Boolean isFavor;
 
         public NewsEntity(){
+            isDislike = false;
             isFavor = false;
             isRead = false;
         }
@@ -47,8 +48,17 @@ public class NewsEntity implements RealmModel, News {
             isRead = read;
         }
 
-    private Boolean isRead;
+        private Boolean isRead;
 
+        public Boolean getDislike() {
+            return isDislike;
+        }
+
+        public void setDislike(Boolean dislike) {
+            isDislike = dislike;
+        }
+
+    private Boolean isDislike;
 
         private RealmList<String> imgUrls;
 

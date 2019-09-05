@@ -48,6 +48,31 @@ public class RealmHelper {
 
     }
 
+    public Boolean dislike(NewsEntity news){
+        List<NewsEntity> dislikeNews = mRealm.where(NewsEntity.class).equalTo("isDislike", true).findAll();
+        return mRec.dislike(dislikeNews, news);
+    }
+
+    public void insertDislike(NewsEntity news){
+        mRealm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                news.setDislike(true);
+            }
+        });
+    }
+
+    public void deleteDislike(NewsEntity news){
+        mRealm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                news.setDislike(false);
+            }
+        });
+    }
+
+
+
     public RealmHelper() {
         mRealm = Realm.getDefaultInstance();
         mRec = NewsRecSystem.getInstance();
@@ -59,6 +84,7 @@ public class RealmHelper {
         List<NewsEntity> favor = getFavorNews();
         return mRec.recommendSort(source, his, favor);
     }
+
     public static RealmHelper getInstance(){
         if (instance == null){
             synchronized (RealmHelper.class){

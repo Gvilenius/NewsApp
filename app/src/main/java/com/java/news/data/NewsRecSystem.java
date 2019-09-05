@@ -25,7 +25,6 @@ public class NewsRecSystem {
     }
 
     private final double wRead = 1, wFavor = 5.0, wCata = 10.0;
-
     /*
      * 文本向量
      */
@@ -71,6 +70,17 @@ public class NewsRecSystem {
         return result / (n1*n2);
     }
 
+    public Boolean dislike(List<NewsEntity> dislikeNews, NewsEntity news){
+        Vector User = new Vector();
+
+        for(NewsEntity data: dislikeNews)
+            User.add(data, 1, 10);
+
+        Vector vnews = new Vector(news);
+
+        return cosineSimilarity(User, vnews, User.norm2(), vnews.norm2()) > 0.8;
+
+    }
 
     public List<NewsEntity> recommendSort(List<NewsEntity> source, List<NewsEntity> his, List<NewsEntity> favor)
     {
