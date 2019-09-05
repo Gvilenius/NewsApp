@@ -45,22 +45,23 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsDetailC
 
         Intent intent=getIntent();
         String newsID = intent.getStringExtra("NewsID");
-        isFavorite=intent.getBooleanExtra("isFavorite",false);
-        setFavButton();
+
 
         mPresenter=new NewsDetailPresenter(this);
 //        System.out.println(newsID);
         news= mPresenter.getNews(newsID);
+        isFavorite=news.getFavor();
+        setFavButton();
 
-        System.out.println(0);
+//        System.out.println(0);
         mPresenter.addHis(news);
-        System.out.println(1);
+//        System.out.println(1);
         title.setText(news.getTitle());
         publisher.setText(news.getPublisher());
         time.setText(news.getPublishTime());
         info.setText(news.getContent());
 
-        System.out.println(2);
+//        System.out.println(2);
         int numOfImg=news.getImgUrls().size();
         System.out.println(news.getImgUrls());
         System.out.println(numOfImg);
@@ -79,7 +80,7 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsDetailC
             image2.setVisibility(View.GONE);
         }
 
-        System.out.println(3);
+//        System.out.println(3);
         String video_url = "https://www.w3schools.com/html/movie.mp4";
         jzVideoPlayerStandard = findViewById(R.id.jz_video_player);
         jzVideoPlayerStandard.setUp(video_url, "video");

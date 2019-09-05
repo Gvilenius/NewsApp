@@ -43,6 +43,7 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
     RecyclerView mRecyclerView;
     SwipeRefreshLayout mSwipeRefreshLayout;
     List<MyData> mDatas = new ArrayList<>();
+    List<MyData> showDatas = new ArrayList<>();
     private RefreshAdapter mRefreshAdapter;
     private LinearLayoutManager mLinearLayoutManager;
 //    SwipeRefreshLayout mSwipeRefreshWidget;
@@ -59,6 +60,7 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
     List<Map<String, Object>> data_list;
     static public ArrayList<String> classesMy = new ArrayList<>(Arrays.asList("推荐","财经","科技","社会","汽车","文化","教育","娱乐","军事","健康","体育"));
     static public ArrayList<String> classesAdd =  new ArrayList<>();
+    int savePosition=0;
     CustomPopupWindow mPop;
     GridView mPopGridView;
     int itemWidth;
@@ -86,7 +88,7 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
         getSupportActionBar().hide();
         setContentView(R.layout.activity_news);
 
-        mPresenter = new NewsListPresenter(this,"","美国男子野外");
+        mPresenter = new NewsListPresenter(this,"","");
 
         mRecyclerView = findViewById(R.id.news_list);
         mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
@@ -107,9 +109,9 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
                     public void onItemClick(
                             AdapterView<?> parent, View view, int position, long id) {
                         classChoose(position);
-                        char outChar = (char) (position + '1');
-                        String outStr = "click on " + outChar;
-                        Toast.makeText(NewsActivity.this, outStr, Toast.LENGTH_SHORT).show();
+//                        char outChar = (char) (position + '1');
+//                        String outStr = "click on " + outChar;
+//                        Toast.makeText(NewsActivity.this, outStr, Toast.LENGTH_SHORT).show();
                     }
                 });
         //让第一个变色
@@ -203,6 +205,8 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
     void classChoose(int position)
     {
         classAdapter.setPosition(position);
+        savePosition=position;
+        fillData();
 //        System.out.println(classView.getCount());
 //        for(int i=0;i<classView.getCount();i++){
 //            View v=classView.getChildAt(i);
@@ -255,7 +259,7 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
     }
 
     private void initRecylerView() {
-        mRefreshAdapter = new RefreshAdapter(this,mDatas);
+        mRefreshAdapter = new RefreshAdapter(this,showDatas);
         mLinearLayoutManager = new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mRecyclerView.setAdapter(mRefreshAdapter);
@@ -325,28 +329,26 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
     @Override
     public void setNewsList(List<NewsEntity> newsList) {
         mDatas.clear();
-        for(NewsEntity o:newsList)
-        {
-            MyData newData=new MyData();
-//            System.out.println(o.getTitle());
-            newData.mTitle=o.getTitle();
-            if(!o.getImgUrls().isEmpty())
-                newData.mURL=o.getImgUrls().first();
-            else
-                newData.mURL="null";
-            newData.mID=o.getNewsID();
-            newData.hasSeen=o.getRead();
-            newData.isFavorate=o.getFavor();
-            mDatas.add(newData);
-//            System.out.println(o.getImgUrls().size());
-        }
-        mRefreshAdapter.changeMoreStatus(mRefreshAdapter.PULLUP_LOAD_MORE);
+        addData(newsList);
+        fillData();
     }
 
     @Override
     public void appendNewsList(List<NewsEntity> newsList) {
+        addData(newsList);
+        fillData();
+    }
+
+    @Override
+    public void onError() {
+
+    }
+
+    void addData(List<NewsEntity> newsList)
+    {
         for(NewsEntity o:newsList)
         {
+
             MyData newData=new MyData();
 //            System.out.println(o.getTitle());
             newData.mTitle=o.getTitle();
@@ -356,7 +358,7 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
                 newData.mURL="null";
             newData.mID=o.getNewsID();
             newData.hasSeen=o.getRead();
-            newData.isFavorate=o.getFavor();
+            newData.mClass=o.getCategory();
             mDatas.add(newData);
 //            System.out.println(o.getImgUrls().size());
         }
@@ -365,10 +367,20 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
         else
             mRefreshAdapter.changeMoreStatus(mRefreshAdapter.NO_LOAD_MORE);
     }
-
-    @Override
-    public void onError() {
-
+    void fillData()
+    {
+        showDatas.clear();
+        if(savePosition==0) {
+            for (MyData o : mDatas)
+                showDatas.add(o);
+        }
+        else {
+            for (MyData o : mDatas) {
+                if (classesMy.get(savePosition).equals(o.mClass))
+                    showDatas.add(o);
+            }
+        }
+        mRefreshAdapter.refreshShow();
     }
 }
 
