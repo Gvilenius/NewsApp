@@ -22,8 +22,8 @@ public class RealmHelper {
 
     public List<NewsEntity> getNewsByRecommend(){
         List<NewsEntity> source = mRealm.where(NewsEntity.class).findAll();
-        List<NewsEntity> his = mRealm.where(NewsEntity.class).equalTo("isRead", true).findAll();
-        List<NewsEntity> favor = mRealm.where(NewsEntity.class).equalTo("isFavor", true).findAll();
+        List<NewsEntity> his = getReadNews();
+        List<NewsEntity> favor = getFavorNews();
         return mRec.recommendSort(source, his, favor);
     }
     public static RealmHelper getInstance(){
@@ -71,6 +71,12 @@ public class RealmHelper {
         return newsList;
     }
 
+    public List<NewsEntity> getFavorNews(){
+        return mRealm.where(NewsEntity.class).equalTo("isFavor", true).findAll();
+    }
+    public List<NewsEntity> getReadNews(){
+        return mRealm.where(NewsEntity.class).equalTo("isRead", true).findAll();
+    }
     public void deleteAllNews(){
         mRealm.executeTransaction(new Realm.Transaction(){
             @Override
