@@ -90,6 +90,42 @@ public class RealmHelper {
         });
     }
 
+    public void insertFavor(NewsEntity news){
+        mRealm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                news.setFavor(true);
+            }
+        });
+    }
+
+    public void insertReadHis(NewsEntity news){
+        mRealm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                news.setRead(true);
+            }
+        });
+    }
+
+    public void deleteFavor(NewsEntity news){
+        mRealm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                news.setFavor(false);
+            }
+        });
+    }
+
+    public void deleteReadHis(NewsEntity news){
+        mRealm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                news.setRead(false);
+            }
+        });
+    }
+
 
 
 //    public void deleteNewsHis(String newsID){

@@ -15,49 +15,25 @@ public class NewsDetailPresenter implements NewsDetailContract.Presenter {
     public NewsDetailPresenter(NewsDetailContract.View view){
         mView = view;
     }
+
     @Override
-    public void addHis(NewsEntity news) {
-        mRealm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                news.setRead(true);
-            }
-        });
-//        dbHelper.insertOrUpdateNews(news);
+    public void addToHis(NewsEntity news) {
+        dbHelper.insertReadHis(news);
     }
 
     @Override
-    public void addFavor(NewsEntity news) {
-        mRealm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                news.setFavor(true);
-            }
-        });
-//        dbHelper.insertOrUpdateNews(news);
+    public void favor(NewsEntity news) {
+        dbHelper.insertFavor(news);
     }
 
     @Override
-    public void removeHis(NewsEntity news) {
-        mRealm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                news.setRead(false);
-            }
-        });
-//        dbHelper.insertOrUpdateNews(news);
+    public void removeFromHis(NewsEntity news) {
+        dbHelper.deleteReadHis(news);
     }
 
     @Override
-    public void removeFavor(NewsEntity news) {
-
-        mRealm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                news.setFavor(false);
-            }
-        });
-//        dbHelper.insertOrUpdateNews(news);
+    public void unFavor(NewsEntity news) {
+        dbHelper.deleteFavor(news);
     }
 
     public NewsEntity getNews(String id)

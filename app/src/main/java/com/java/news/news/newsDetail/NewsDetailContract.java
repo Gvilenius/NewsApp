@@ -13,9 +13,9 @@ public interface NewsDetailContract {
     }
 
     public interface Presenter extends BasePresenter{
-        void addHis(NewsEntity news);
-        void addFavor(NewsEntity news);
-        void removeHis(NewsEntity news);
-        void removeFavor(NewsEntity news);
+        void addToHis(NewsEntity news);
+        void favor(NewsEntity news);
+        void removeFromHis(NewsEntity news);
+        void unFavor(NewsEntity news);
     }
 }
