@@ -54,6 +54,7 @@ public class NewsListPresenter implements NewsListContract.Presenter {
             public void onNext(NewsResponse value){
                 List<NewsEntity> newsList = value.getNewsList();
                 dbHelper.insertNewsList(newsList);
+                mNewsListView.setNewsList(newsList.subList(0, 10));
             }
             @Override
             public void onError(Throwable e) {
@@ -64,8 +65,7 @@ public class NewsListPresenter implements NewsListContract.Presenter {
 
             @Override
             public void onComplete() {
-                mCurrentPage = 0;
-                loadMore();
+                mCurrentPage = 1;
                 System.out.println("刷新完成");
             }
         });
