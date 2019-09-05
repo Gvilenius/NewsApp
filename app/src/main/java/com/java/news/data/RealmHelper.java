@@ -69,8 +69,16 @@ public class RealmHelper {
         return instance;
     }
 
-    public RealmResults<NewsEntity> getNewsByKeyword(final String keyword){
-        return mRealm.where(NewsEntity.class).like("content", keyword).findAll();
+    public List<NewsEntity> getNewsByKeyword(final String keyword, int pageIndex, int pageSize){
+        int start = pageSize*pageIndex,
+                end = pageSize*pageIndex + pageSize;
+        List<NewsEntity> newsList = new ArrayList<>();
+        RealmResults<NewsEntity> query=  mRealm.where(NewsEntity.class).like("content", keyword).findAll();
+        for (int i = start; i < end; ++i){
+            if (i >= query.size()) break;
+            newsList.add(query.get(i));
+        }
+        return newsList;
     }
 
     public NewsEntity getNewsByID(String newsID){

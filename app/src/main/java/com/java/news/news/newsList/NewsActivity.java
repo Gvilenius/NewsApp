@@ -37,7 +37,7 @@ import butterknife.ButterKnife;
 
 
 
-public class NewsActivity extends AppCompatActivity implements NewsListContract.View, OnClickListener, IOnSearchClickListener {
+public class NewsActivity extends AppCompatActivity implements OnClickListener, IOnSearchClickListener {
     private NewsListContract.Presenter mPresenter;
     private NewsListFragment mFOne;
     Fragment a;
@@ -145,22 +145,6 @@ public class NewsActivity extends AppCompatActivity implements NewsListContract.
     void scrollToPosition(int position)
     {
         scrollView.scrollTo(position*itemWidth,0);
-    }
-
-
-    @Override
-    public void setNewsList(List<NewsEntity> newsList) {
-
-    }
-
-    @Override
-    public void appendNewsList(List<NewsEntity> newsList) {
-
-    }
-
-    @Override
-    public void onError() {
-
     }
 
 
