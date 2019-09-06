@@ -23,6 +23,11 @@ import com.java.news.data.NewsEntity;
 import com.java.news.myitems.NightMode;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import butterknife.BindView;
 import cn.jzvd.Jzvd;
@@ -136,24 +141,39 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsDetailC
     @NeedsPermission(WRITE_EXTERNAL_STORAGE)
     public void shareClick(View view)
     {
-//        Bitmap bitmap = ((GlideBitmapDrawable) (image1).getDrawable()).getBitmap();
-//
-//        if (bitmap == null) return;
-//
-//        Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, null,null));
-//        if (uri == null) return;
+        String dir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/myNews/";
         Uri uri = null;
-        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        Bitmap bitmap = ((GlideBitmapDrawable) (image1).getDrawable()).getBitmap();
 
+//        Calendar now = new GregorianCalendar();
+//        SimpleDateFormat simpleDate = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault());
+//        String fileName = simpleDate.format(now.getTime());
+//
+//
+//        try {
+//            File file = new File(dir + fileName + ".jpg");
+//            FileOutputStream out = new FileOutputStream(file);
+//            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+//            out.flush();
+//            out.close();
+//            uri = Uri.fromFile(file);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
         String content = news.getContent();
         if (content.length() > 100) content = "概要:" + content.substring(0, 100) + "...";
-        if(uri!=null){
+
+
+        if(uri != null){
             shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
             shareIntent.setType("image/*");
             shareIntent.putExtra("sms_body", content);
         }else{
             shareIntent.setType("text/plain");
         }
+
 
         shareIntent.putExtra(Intent.EXTRA_TEXT, content);
         shareIntent.putExtra(Intent.EXTRA_TEXT, news.getUrl());
